@@ -15,7 +15,7 @@ export const educationUnits: EducationUnit[] = [
     category: "Pendidikan Anak Usia Dini",
     description:
       "Lembaga pendidikan anak usia dini di bawah naungan Yayasan Titi Samaguna yang menanamkan nilai-nilai keislaman, akhlak mulia, dan kecintaan belajar sejak dini melalui pendekatan bermain yang menyenangkan.",
-    image: placeholderImage("taman-kanak-kanak-islam"),
+    image: '/images/tk/tk-1.jpg',
     vision: TODO_CONTENT,
     mission: [TODO_CONTENT, TODO_CONTENT, TODO_CONTENT],
     programs: [TODO_CONTENT, TODO_CONTENT, TODO_CONTENT, TODO_CONTENT],
@@ -32,7 +32,7 @@ export const educationUnits: EducationUnit[] = [
     category: "Madrasah Ibtidaiyah",
     description:
       "Madrasah Ibtidaiyah yang menyelenggarakan pendidikan dasar jenjang MI dengan paduan kurikulum nasional dan pendidikan keagamaan yang kokoh, di bawah naungan Nahdlatul Wathan.",
-    image: placeholderImage("madrasah-ibtidaiyah-murid-sekolah-dasar"),
+    image: '/images/mi/mi-1.png',
     vision: TODO_CONTENT,
     mission: [TODO_CONTENT, TODO_CONTENT, TODO_CONTENT, TODO_CONTENT],
     programs: [TODO_CONTENT, TODO_CONTENT, TODO_CONTENT, TODO_CONTENT, TODO_CONTENT],
@@ -49,7 +49,7 @@ export const educationUnits: EducationUnit[] = [
     category: "Madrasah Tsanawiyah",
     description:
       "Madrasah Tsanawiyah untuk jenjang SMP yang mengembangkan potensi akademik, keagamaan, dan karakter siswa menuju remaja yang berilmu dan berakhlakul karimah.",
-    image: placeholderImage("madrasah-tsanawiyah-smp-islam"),
+    image: "/images/mts/mts-1.png",
     vision: TODO_CONTENT,
     mission: [TODO_CONTENT, TODO_CONTENT, TODO_CONTENT, TODO_CONTENT],
     programs: [TODO_CONTENT, TODO_CONTENT, TODO_CONTENT, TODO_CONTENT, TODO_CONTENT],
@@ -66,7 +66,7 @@ export const educationUnits: EducationUnit[] = [
     category: "Madrasah Aliyah",
     description:
       "Madrasah Aliyah jenjang SMA yang mempersiapkan peserta didik menuju pendidikan tinggi dan kehidupan bermasyarakat dengan fondasi keilmuan serta keislaman yang kuat.",
-    image: placeholderImage("madrasah-aliyah-sma-islam-belajar"),
+    image: '/images/ma/ma-1.jpg',
     vision: TODO_CONTENT,
     mission: [TODO_CONTENT, TODO_CONTENT, TODO_CONTENT, TODO_CONTENT, TODO_CONTENT],
     programs: [TODO_CONTENT, TODO_CONTENT, TODO_CONTENT, TODO_CONTENT, TODO_CONTENT],

@@ -7,14 +7,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.url.replace(/\/$/, "");
   const now = new Date();
 
-  const staticRoutes = ["", "/tentang", "/unit-pendidikan", "/kegiatan", "/ppdb", "/galeri", "/kontak"].map(
-    (path) => ({
-      url: `${baseUrl}${path === "" ? "/" : path}`,
-      lastModified: now,
-      changeFrequency: "weekly" as const,
-      priority: path === "" ? 1 : path === "/ppdb" || path === "/unit-pendidikan" ? 0.9 : 0.8,
-    })
-  );
+  const staticRoutes = [
+    "",
+    "/tentang",
+    "/unit-pendidikan",
+    "/kegiatan",
+    "/prestasi",
+    "/ekstrakurikuler",
+    "/ekstrakurikuler/pramuka",
+    "/ekstrakurikuler/sepak-bola",
+    "/ppdb",
+    "/galeri",
+    "/kontak",
+  ].map((path) => ({
+    url: `${baseUrl}${path === "" ? "/" : path}`,
+    lastModified: now,
+    changeFrequency: "weekly" as const,
+    priority:
+      path === ""
+        ? 1
+        : path === "/ppdb" || path === "/unit-pendidikan"
+          ? 0.9
+          : path === "/prestasi" || path === "/ekstrakurikuler"
+            ? 0.85
+            : 0.8,
+  }));
 
   const unitRoutes = educationUnits.map((unit) => ({
     url: `${baseUrl}/unit-pendidikan/${unit.slug}`,

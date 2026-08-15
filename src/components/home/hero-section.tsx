@@ -7,11 +7,7 @@ import { EDUCATION_LEVEL_ORDER } from "@/types/education";
 import { siteConfig } from "@/data/site";
 
 const heroBg =
-  "https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=" +
-  encodeURIComponent(
-    "panoramic foto dokumenter suasana madrasah islam di desa lombok, anak-anak sekolah berjalan ke kelas dengan senyum, gedung sekolah berwarna hijau alami, pohon rindang, suasana pagi yang hangat dan penuh harapan, fotografi sinematik detail tinggi"
-  ) +
-  "&image_size=landscape_16_9";
+  "/images/main.jpg";
 
 export function HeroSection() {
   return (
@@ -100,11 +96,7 @@ export function HeroSection() {
             <div className="relative mx-auto max-w-md aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl shadow-primary-900/20 ring-1 ring-white">
               <Image
                 src={
-                  "https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=" +
-                  encodeURIComponent(
-                    "foto close up dokumenter guru muslimah tersenyum membimbing anak-anak TK membaca Iqro, hangat, alami, detail tinggi, sinar matahari pagi, nuansa hijau lembut"
-                  ) +
-                  "&image_size=portrait_4_3"
+                  "/images/mi/mi-1.png"
                 }
                 alt="Guru membimbing peserta didik dalam suasana belajar yang hangat"
                 fill

@@ -17,7 +17,7 @@ export function LatestActivities() {
           <SectionHeading
             eyebrow="Kegiatan Terbaru"
             title="Cerita Kegiatan di Lingkungan Yatina"
-            description="Dokumentasi kegiatan belajar mengajar, keagamaan, ekstrakurikuler, dan pengabdian masyarakat yang diadakan oleh Yayasan Titi Samaguna."
+            description="Dokumentasi kegiatan belajar mengajar, keagamaan, ekstrakurikuler, prestasi, dan pengabdian masyarakat yang diadakan oleh Yayasan Titi Samaguna."
           />
           <Button href="/kegiatan" variant="outline" rightIcon={<ArrowUpRight className="h-4 w-4" />}>
             Lihat Semua Kegiatan

@@ -30,13 +30,15 @@ export const metadata: Metadata = {
 
 type SocialIcon = typeof Instagram | typeof Facebook | typeof Youtube;
 
-const contactWa = siteConfig.contact.whatsapp !== TODO_CONTENT;
-const contactPhone = siteConfig.contact.phone !== TODO_CONTENT;
-const contactEmail = siteConfig.contact.email !== TODO_CONTENT;
-const mapsReady = siteConfig.maps.url !== TODO_CONTENT;
-const socialIG = siteConfig.social.instagram !== TODO_CONTENT;
-const socialFB = siteConfig.social.facebook !== TODO_CONTENT;
-const socialYT = siteConfig.social.youtube !== TODO_CONTENT;
+const hasContent = (value: string) => value !== TODO_CONTENT;
+
+const contactWa = hasContent(siteConfig.contact.whatsapp);
+const contactPhone = hasContent(siteConfig.contact.phone);
+const contactEmail = hasContent(siteConfig.contact.email);
+const mapsReady = hasContent(siteConfig.maps.url);
+const socialIG = hasContent(siteConfig.social.instagram);
+const socialFB = hasContent(siteConfig.social.facebook);
+const socialYT = hasContent(siteConfig.social.youtube);
 
 function ContactItem({
   icon: Icon,

@@ -9,7 +9,13 @@ import { cn } from "@/lib/utils";
 import { educationUnits } from "@/data/education-units";
 import { PPDBCTA } from "@/components/ui/ppdb-cta";
 
-const navLinks = [
+type NavLink = {
+  href: string;
+  label: string;
+  children?: { href: string; label: string }[];
+};
+
+const navLinks: NavLink[] = [
   { href: "/", label: "Beranda" },
   { href: "/tentang", label: "Tentang Kami" },
   {
@@ -20,8 +26,17 @@ const navLinks = [
       label: u.name,
     })),
   },
+  { href: "/prestasi", label: "Prestasi" },
+  // {
+  //   href: "/ekstrakurikuler",
+  //   label: "Ekstrakurikuler",
+  //   children: [
+  //     { href: "/ekstrakurikuler/pramuka", label: "Pramuka" },
+  //     { href: "/ekstrakurikuler/sepak-bola", label: "Sepak Bola" },
+  //   ],
+  // },
   { href: "/kegiatan", label: "Kegiatan" },
-  { href: "/ppdb", label: "PPDB" },
+  // { href: "/ppdb", label: "PPDB" },
   { href: "/galeri", label: "Galeri" },
   { href: "/kontak", label: "Kontak" },
 ];
@@ -29,7 +44,7 @@ const navLinks = [
 export function Header() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
-  const [educationOpen, setEducationOpen] = React.useState(false);
+  const [openDropdown, setOpenDropdown] = React.useState<string | null>(null);
   const navRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -53,13 +68,13 @@ export function Header() {
   }, [mobileOpen]);
 
   React.useEffect(() => {
-    if (!educationOpen) return;
+    if (!openDropdown) return;
     const onClick = (e: MouseEvent) => {
-      if (!navRef.current?.contains(e.target as Node)) setEducationOpen(false);
+      if (!navRef.current?.contains(e.target as Node)) setOpenDropdown(null);
     };
     document.addEventListener("mousedown", onClick);
     return () => document.removeEventListener("mousedown", onClick);
-  }, [educationOpen]);
+  }, [openDropdown]);
 
   return (
     <header
@@ -101,40 +116,49 @@ export function Header() {
             className="hidden lg:flex items-center gap-1"
           >
             {navLinks.map((link) => {
-              if ("children" in link && link.children) {
+              if (link.children) {
+                const isOpen = openDropdown === link.href;
+                const groupLabel =
+                  link.href === "/unit-pendidikan"
+                    ? "Seluruh Unit Pendidikan"
+                    : "Seluruh Program Ekstrakurikuler";
                 return (
                   <div key={link.href} className="relative">
                     <button
                       type="button"
-                      onClick={() => setEducationOpen((v) => !v)}
+                      onClick={() =>
+                        setOpenDropdown((current) =>
+                          current === link.href ? null : link.href
+                        )
+                      }
                       aria-haspopup="true"
-                      aria-expanded={educationOpen}
+                      aria-expanded={isOpen}
                       className="inline-flex items-center gap-1 px-3.5 py-2 text-sm font-medium text-secondary-700 transition-colors hover:text-primary-700 hover:bg-primary-50/60 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
                     >
                       {link.label}
                       <ChevronDown
                         className={cn(
                           "h-3.5 w-3.5 transition-transform duration-200",
-                          educationOpen && "rotate-180"
+                          isOpen && "rotate-180"
                         )}
                       />
                     </button>
-                    {educationOpen && (
+                    {isOpen && (
                       <div className="absolute right-0 mt-2 w-72 origin-top-right rounded-xl border border-primary-100 bg-white shadow-lg ring-1 ring-black/5 animate-fade-in">
                         <div className="p-2 space-y-0.5">
                           <Link
                             href={link.href}
-                            onClick={() => setEducationOpen(false)}
+                            onClick={() => setOpenDropdown(null)}
                             className="block px-3 py-2 rounded-lg text-sm font-semibold text-primary-700 hover:bg-primary-50"
                           >
-                            Seluruh Unit Pendidikan
+                            {groupLabel}
                           </Link>
                           <div className="h-px bg-primary-100 my-1.5" />
                           {link.children.map((child) => (
                             <Link
                               key={child.href}
                               href={child.href}
-                              onClick={() => setEducationOpen(false)}
+                              onClick={() => setOpenDropdown(null)}
                               className="block px-3 py-2 rounded-lg text-sm text-secondary-700 hover:bg-primary-50 hover:text-primary-700"
                             >
                               {child.label}
@@ -207,7 +231,7 @@ export function Header() {
             </div>
             <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-1.5">
               {navLinks.map((link) => {
-                if ("children" in link && link.children) {
+                if (link.children) {
                   return (
                     <div key={link.href} className="space-y-1">
                       <Link

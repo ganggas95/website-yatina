@@ -5,7 +5,7 @@ import { siteConfig } from "@/data/site";
 import { TODO_CONTENT } from "@/lib/utils";
 
 export function LocationSection() {
-  const mapReady = siteConfig.maps.url !== TODO_CONTENT;
+  const mapReady = String(siteConfig.maps.url) !== TODO_CONTENT;
 
   return (
     <section

@@ -18,6 +18,8 @@ import { TODO_CONTENT } from "@/lib/utils";
 const footerMenus = [
   { label: "Tentang Kami", href: "/tentang" },
   { label: "Unit Pendidikan", href: "/unit-pendidikan" },
+  { label: "Prestasi", href: "/prestasi" },
+  { label: "Ekstrakurikuler", href: "/ekstrakurikuler" },
   { label: "Kegiatan", href: "/kegiatan" },
   { label: "PPDB", href: "/ppdb" },
   { label: "Galeri", href: "/galeri" },

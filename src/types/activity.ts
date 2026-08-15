@@ -8,6 +8,10 @@ export type ActivityCategory =
   | "Yayasan"
   | "Sosial";
 
+export type ActivitySection = "prestasi" | "ekstrakurikuler";
+
+export type ActivityProgram = "pramuka" | "sepak-bola";
+
 export interface Activity {
   slug: string;
   title: string;
@@ -18,4 +22,6 @@ export interface Activity {
   date: string;
   educationUnit?: EducationLevel | "Yayasan";
   featured?: boolean;
+  section?: ActivitySection;
+  program?: ActivityProgram;
 }

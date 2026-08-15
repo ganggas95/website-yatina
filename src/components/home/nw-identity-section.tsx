@@ -5,11 +5,7 @@ import { nwIdentity } from "@/data/values";
 import { cn, TODO_CONTENT } from "@/lib/utils";
 
 const nwImage =
-  "https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=" +
-  encodeURIComponent(
-    "suasana masjid tradisional lombok dengan ornamen kayu khas sasak, langit pagi cerah berwarna biru muda, pohon kelapa, fotografi dokumenter tenang, nuansa spiritual"
-  ) +
-  "&image_size=landscape_4_3";
+  "/images/hero-3.jpg";
 
 export function NWIdentitySection() {
   const isPlaceholder = nwIdentity.description === TODO_CONTENT;
