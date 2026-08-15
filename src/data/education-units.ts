@@ -1,11 +1,6 @@
 import type { EducationUnit } from "@/types/education";
 import { TODO_CONTENT } from "@/lib/utils";
 
-const placeholderImage = (seed: string) =>
-  `https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=${encodeURIComponent(
-    `suasana pendidikan islam ${seed} di madrasah indonesia, suasana hangat, dokumenter, fotografi natural, pencahayaan alami, anak-anak muslim belajar dengan gembira, bangunan sekolah tradisional modern, nuansa hijau dan emas lembut`
-  )}&image_size=landscape_16_9`;
-
 export const educationUnits: EducationUnit[] = [
   {
     slug: "tk-yatina",

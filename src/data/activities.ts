@@ -1,11 +1,6 @@
 import type { Activity, ActivityProgram, ActivitySection } from "@/types/activity";
 import { TODO_CONTENT } from "@/lib/utils";
 
-const activityImage = (seed: string) =>
-  `https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=${encodeURIComponent(
-    `kegiatan ${seed} di madrasah islam indonesia, dokumenter alami, pencahayaan hangat, suasana akrab, anak-anak dan guru muslim, nuansa lokal lombok`
-  )}&image_size=landscape_4_3`;
-
 export const activities: Activity[] = [
   {
     slug: "kegiatan-belajar-mengajar-rutin",
