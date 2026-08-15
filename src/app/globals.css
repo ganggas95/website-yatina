@@ -10,11 +10,13 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    overflow-x: hidden;
   }
 
   body {
     @apply bg-background font-sans text-slate-800 antialiased;
     font-feature-settings: "cv11", "ss01";
+    overflow-x: hidden;
   }
 
   ::selection {

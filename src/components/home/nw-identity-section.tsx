@@ -38,7 +38,7 @@ export function NWIdentitySection() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-primary-900/50 via-transparent to-transparent" />
             </div>
-            <div className="absolute -bottom-6 -right-4 sm:-bottom-8 sm:-right-8 max-w-[18rem] rounded-2xl bg-white text-primary-800 px-5 py-4 shadow-xl ring-1 ring-primary-50">
+            <div className="absolute bottom-4 right-4 sm:-bottom-8 sm:-right-8 max-w-[18rem] rounded-2xl bg-white text-primary-800 px-5 py-4 shadow-xl ring-1 ring-primary-50">
               <p className="font-heading text-base font-bold leading-tight">
                 Menggabungkan pendidikan Islam tradisional dan modern
               </p>
