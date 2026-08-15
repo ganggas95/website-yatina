@@ -180,7 +180,7 @@ export default function KontakPage() {
               <MapPin className="h-3.5 w-3.5" />
               Kami siap membantu
             </span>
-            <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight text-balance">
+            <h1 className="font-heading text-accent-50 text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight text-balance">
               Hubungi Kami
             </h1>
             <p className="text-base sm:text-lg md:text-xl leading-8 text-primary-100/90 max-w-2xl">
@@ -330,7 +330,7 @@ export default function KontakPage() {
                 <p className="text-sm font-semibold uppercase tracking-widest text-accent-200">
                   Tidak menemukan jawaban?
                 </p>
-                <h2 className="font-heading text-3xl sm:text-4xl font-extrabold leading-tight text-balance">
+                <h2 className="text-accent-50 font-heading text-3xl sm:text-4xl font-extrabold leading-tight text-balance">
                   Kami sangat senang mendengar dari Anda.
                 </h2>
                 <p className="text-lg leading-8 text-primary-100/90">

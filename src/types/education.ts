@@ -10,8 +10,10 @@ export interface EducationUnit {
   image: string;
   address?: string;
   headmaster?: string;
+  history?: string[];
   vision?: string;
   mission?: string[];
+  goals?: string[];
   programs?: string[];
   activities?: string[];
   facilities?: string[];

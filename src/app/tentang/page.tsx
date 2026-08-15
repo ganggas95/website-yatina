@@ -28,11 +28,7 @@ export const metadata: Metadata = {
 };
 
 const aboutImage =
-  "https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=" +
-  encodeURIComponent(
-    "foto gedung madrasah islam di desa lombok dengan halaman hijau rindang, siswa-siswi berjalan dengan tertib, pagi hari cerah, dokumenter alami, nuansa hangat"
-  ) +
-  "&image_size=landscape_4_3";
+  "/images/main.jpg";
 
 const sectionClass = "py-20 sm:py-24";
 
@@ -60,7 +56,7 @@ export default function TentangPage() {
               <BookOpen className="h-3.5 w-3.5" />
               Profil Yayasan
             </span>
-            <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight text-balance">
+            <h1 className="text-accent-50 font-heading text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight text-balance">
               Tentang Yayasan Titi Samaguna
             </h1>
             <p className="text-base sm:text-lg md:text-xl leading-8 text-primary-100/90 max-w-2xl">
@@ -82,10 +78,7 @@ export default function TentangPage() {
               />
               <div className="prose prose-slate max-w-none prose-p:text-secondary-700 prose-p:leading-8">
                 <p>
-                  Berlokasi di jantung Dusun Penjor, yayasan mengelola empat jenjang pendidikan yang terintegrasi:
-                  Taman Kanak-kanak (TK), Madrasah Ibtidaiyah (MI), Madrasah Tsanawiyah (MTs), dan Madrasah Aliyah (MA).
-                  Seluruh unit pendidikan berada dalam lingkungan organisasi Nahdlatul Wathan, dengan pendekatan
-                  pembelajaran yang memadukan ilmu pengetahuan umum, nilai-nilai Islam, serta kearifan lokal Lombok.
+                  Yayasan Titik Samaguna (atau Titi Samaguna) adalah lembaga sosial keagamaan dan pendidikan Islam yang berlokasi di Jalan Jurusan Selelos Km 7, Dusun Penjor, Desa Genggelang, Kecamatan Gangga, Kabupaten Lombok Utara, Nusa Tenggara Barat. Yayasan ini menaungi Pondok Pesantren Riadlul Jannah NWDI.
                 </p>
                 <p>
                   Melalui tenaga pendidik yang penuh dedikasi dan lingkungan belajar yang asri,
@@ -174,7 +167,7 @@ export default function TentangPage() {
                   <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-primary-700 shadow">
                     <Flag className="h-5 w-5" />
                   </span>
-                  <h3 className="font-heading text-2xl font-bold">Visi</h3>
+                  <h3 className="font-heading text-2xl font-bold text-accent-50 ">Visi</h3>
                 </div>
                 <p
                   className={`text-lg leading-8 ${

@@ -12,6 +12,13 @@ export type ActivitySection = "prestasi" | "ekstrakurikuler";
 
 export type ActivityProgram = "pramuka" | "sepak-bola";
 
+export interface ActivityGalleryItem {
+  image: string;
+  title: string;
+  description: string;
+  alt?: string;
+}
+
 export interface Activity {
   slug: string;
   title: string;
@@ -24,4 +31,5 @@ export interface Activity {
   featured?: boolean;
   section?: ActivitySection;
   program?: ActivityProgram;
+  gallery?: ActivityGalleryItem[];
 }

@@ -3,9 +3,9 @@ import {TODO_CONTENT} from "@/lib/utils";
 export const siteConfig = {
     name: "Yayasan Titi Samaguna",
     shortName: "Yatina",
-    tagline: "Mendidik Generasi Berilmu, Berakhlak dan Bermanfaat",
+    tagline: "Berakhlak, Terampil, dan Berprestasi",
     description:
-        "Yayasan pendidikan yang menaungi jenjang TK hingga Madrasah Aliyah di Dusun Penjor, Desa Genggelang, Kecamatan Gangga, Kabupaten Lombok Utara, Nusa Tenggara Barat.",
+        "Yayasan Titik Samaguna (atau Titi Samaguna) adalah lembaga sosial keagamaan dan pendidikan Islam yang berlokasi di Jalan Jurusan Selelos Km 7, Dusun Penjor, Desa Genggelang, Kecamatan Gangga, Kabupaten Lombok Utara, Nusa Tenggara Barat. Yayasan ini menaungi Pondok Pesantren Riadlul Jannah NWDI.",
     language: "id",
     locale: "id_ID",
     url: "https://yatinapenjor.sch.id",

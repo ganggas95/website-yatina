@@ -184,7 +184,7 @@ export function Footer() {
             © {year} {siteConfig.copyright.holder}. All rights reserved.
           </p>
           <p className="text-primary-100/60">
-            Dibuat dengan penuh semangat untuk pendidikan generasi Penjor.
+            Dibuat dengan penuh semangat untuk pendidikan generasi Islami.
           </p>
         </div>
       </Container>

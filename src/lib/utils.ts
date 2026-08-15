@@ -19,3 +19,4 @@ export function formatTanggal(dateStr: string) {
 }
 
 export const TODO_CONTENT = "TODO_CONTENT";
+export const VISI_CONTENT = "Berakhlak, terampil, dan berprestasi";

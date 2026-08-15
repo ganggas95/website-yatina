@@ -35,7 +35,7 @@ export default function PPDBPage() {
               <Sparkles className="h-3.5 w-3.5" />
               Tahun Ajaran Baru
             </span>
-            <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight text-balance">
+            <h1 className="font-heading text-accent-50 text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight text-balance">
               Penerimaan Peserta Didik Baru
             </h1>
             <p className="text-base sm:text-lg md:text-xl leading-8 text-primary-100/90 max-w-2xl">

@@ -13,6 +13,22 @@ export const activities: Activity[] = [
     date: "2025-01-12",
     educationUnit: "Yayasan",
     featured: true,
+    gallery: [
+      {
+        image: "/images/belajar-1.jpg",
+        title: "Suasana belajar di kelas",
+        description:
+          "Guru dan peserta didik menjalankan pembelajaran tatap muka dengan suasana yang tertib dan fokus.",
+        alt: "Kegiatan belajar mengajar rutin di dalam kelas Yatina",
+      },
+      {
+        image: "/images/hero-2.jpg",
+        title: "Pendampingan pembelajaran harian",
+        description:
+          "Proses belajar didampingi secara terarah agar materi akademik dan pembinaan karakter berjalan seimbang.",
+        alt: "Pendampingan pembelajaran harian peserta didik di lingkungan madrasah",
+      },
+    ],
   },
   {
     slug: "sholat-dhuha-berjamaah",
@@ -25,6 +41,22 @@ export const activities: Activity[] = [
     date: "2025-01-10",
     educationUnit: "MI",
     featured: true,
+    gallery: [
+      {
+        image: "/images/dhuha-1.jpg",
+        title: "Shalat dhuha bersama",
+        description:
+          "Peserta didik, guru, dan warga madrasah mengikuti shalat dhuha berjamaah sebagai pembiasaan ibadah harian.",
+        alt: "Shalat dhuha berjamaah bersama siswa dan guru madrasah",
+      },
+      {
+        image: "/images/hero-3.jpg",
+        title: "Kultum setelah ibadah",
+        description:
+          "Setelah shalat, kegiatan dilanjutkan dengan kultum singkat untuk memperkuat adab dan nilai keislaman.",
+        alt: "Suasana pembinaan keagamaan setelah shalat dhuha berjamaah",
+      },
+    ],
   },
   {
     slug: "ekstrakurikuler-pramuka",
@@ -39,6 +71,22 @@ export const activities: Activity[] = [
     featured: true,
     section: "ekstrakurikuler",
     program: "pramuka",
+    gallery: [
+      {
+        image: "/images/pramuka/pramuka-1.jpg",
+        title: "Latihan formasi Pramuka",
+        description:
+          "Siswa berlatih baris-berbaris dan koordinasi regu untuk membangun disiplin serta kepemimpinan.",
+        alt: "Latihan ekstrakurikuler Pramuka di lingkungan sekolah",
+      },
+      {
+        image: "/images/hero-2.jpg",
+        title: "Pembinaan karakter lapangan",
+        description:
+          "Kegiatan lapangan mendorong kemandirian, kerja sama tim, dan kepedulian antaranggota regu.",
+        alt: "Pembinaan karakter siswa melalui kegiatan lapangan Pramuka",
+      },
+    ],
   },
   {
     slug: "tim-sepak-bola-persahabatan-antar-madrasah",
@@ -52,6 +100,22 @@ export const activities: Activity[] = [
     educationUnit: "MTs",
     section: "ekstrakurikuler",
     program: "sepak-bola",
+    gallery: [
+      {
+        image: "/images/bola/bola-1.jpg",
+        title: "Latihan teknik dasar tim",
+        description:
+          "Program latihan rutin difokuskan pada teknik dasar, kebugaran, dan koordinasi antarpemain.",
+        alt: "Latihan teknik dasar tim sepak bola siswa madrasah",
+      },
+      {
+        image: "/images/main.jpg",
+        title: "Semangat kerja sama tim",
+        description:
+          "Pembinaan sepak bola menanamkan sportivitas, tanggung jawab, dan kekompakan sebelum laga persahabatan.",
+        alt: "Pembinaan kerja sama tim dalam kegiatan sepak bola madrasah",
+      },
+    ],
   },
   {
     slug: "kunjungan-sosial-desa",
@@ -63,6 +127,22 @@ export const activities: Activity[] = [
     category: "Sosial",
     date: "2025-01-05",
     educationUnit: "MI",
+    gallery: [
+      {
+        image: "/images/sosial/sosial-masyarakat-1.jpg",
+        title: "Kunjungan ke warga sekitar",
+        description:
+          "Peserta didik belajar hadir langsung di tengah masyarakat dengan membawa semangat kepedulian sosial.",
+        alt: "Kegiatan kunjungan sosial peserta didik ke masyarakat sekitar",
+      },
+      {
+        image: "/images/hero-3.jpg",
+        title: "Pembelajaran empati bersama",
+        description:
+          "Guru mendampingi siswa agar kegiatan sosial menjadi sarana pembentukan empati dan akhlak terpuji.",
+        alt: "Pendampingan guru dalam kegiatan sosial bersama siswa",
+      },
+    ],
   },
   // {
   //   slug: "lomba-adzan-dan-tilawah",
@@ -98,6 +178,22 @@ export const activities: Activity[] = [
     category: "Kegiatan Madrasah",
     date: "2024-12-30",
     educationUnit: "MTs",
+    gallery: [
+      {
+        image: "/images/upacara/upacara-bendera-1.jpg",
+        title: "Barisan upacara Senin pagi",
+        description:
+          "Seluruh peserta didik mengikuti upacara dengan tertib sebagai pembiasaan disiplin dan cinta tanah air.",
+        alt: "Barisan siswa saat upacara bendera hari Senin di madrasah",
+      },
+      {
+        image: "/images/hero-2.jpg",
+        title: "Pembinaan kedisiplinan bersama",
+        description:
+          "Rangkaian upacara menjadi momen pembinaan sikap, tanggung jawab, dan penghormatan kepada simbol negara.",
+        alt: "Pembinaan kedisiplinan siswa dalam kegiatan upacara bendera",
+      },
+    ],
   },
 ];
 

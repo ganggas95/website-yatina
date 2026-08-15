@@ -1,4 +1,4 @@
-import { TODO_CONTENT } from "@/lib/utils";
+import {TODO_CONTENT, VISI_CONTENT} from "@/lib/utils";
 import type { LucideIcon } from "lucide-react";
 import {
   BookOpen,
@@ -67,9 +67,9 @@ export const nwIdentity = {
 };
 
 export const foundationInfo = {
-  introHeading: "Membangun Pendidikan dari Penjor untuk Generasi Masa Depan",
+  introHeading: "Lembaga Sosial Keagamaan dan Pendidikan Islam",
   history: TODO_CONTENT,
-  vision: TODO_CONTENT,
+  vision: VISI_CONTENT,
   mission: [TODO_CONTENT, TODO_CONTENT, TODO_CONTENT, TODO_CONTENT],
   organization: [] as { name: string; role: string; image?: string }[],
 };
