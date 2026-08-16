@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/container";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ActivityCard } from "@/components/activity/activity-card";
+import { ActivityGallery } from "@/components/activity/activity-gallery";
 import type { Activity } from "@/types/activity";
 import { TODO_CONTENT, formatTanggal } from "@/lib/utils";
 import type { EducationLevel } from "@/types/education";
@@ -16,7 +17,8 @@ interface ActivityDetailProps {
 
 export function ActivityDetail({ activity, related }: ActivityDetailProps) {
   const isContentPlaceholder = activity.content === TODO_CONTENT;
-  const hasGallery = Boolean(activity.gallery?.length);
+  const galleryItems = activity.gallery ?? [];
+  const hasGallery = galleryItems.length > 0;
 
   return (
     <article className="space-y-0">
@@ -106,39 +108,14 @@ export function ActivityDetail({ activity, related }: ActivityDetailProps) {
               )}
             </div>
 
-            {hasGallery && activity.gallery && (
+            {hasGallery && (
               <section className="space-y-6" aria-label="Galeri kegiatan">
                 <SectionHeading
                   eyebrow="Dokumentasi"
                   title="Galeri Kegiatan"
                   description="Beberapa momen yang menggambarkan suasana dan pelaksanaan kegiatan ini."
                 />
-                <div className="grid gap-5 md:grid-cols-2">
-                  {activity.gallery.map((item) => (
-                    <figure
-                      key={`${activity.slug}-${item.image}-${item.title}`}
-                      className="overflow-hidden rounded-3xl bg-white ring-1 ring-primary-100 shadow-sm shadow-primary-900/5"
-                    >
-                      <div className="relative aspect-[4/3] overflow-hidden bg-primary-50">
-                        <Image
-                          src={item.image}
-                          alt={item.alt ?? item.title}
-                          fill
-                          sizes="(min-width: 768px) 50vw, 100vw"
-                          className="object-cover"
-                        />
-                      </div>
-                      <figcaption className="space-y-2 p-5 sm:p-6">
-                        <h3 className="font-heading text-xl font-bold text-primary-800">
-                          {item.title}
-                        </h3>
-                        <p className="text-sm leading-7 text-secondary-700">
-                          {item.description}
-                        </p>
-                      </figcaption>
-                    </figure>
-                  ))}
-                </div>
+                <ActivityGallery activitySlug={activity.slug} items={galleryItems} />
               </section>
             )}
 

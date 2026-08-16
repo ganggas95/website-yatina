@@ -63,7 +63,20 @@ export const activities: Activity[] = [
     title: "Ekstrakurikuler Pramuka dan Kepemimpinan",
     excerpt:
       "Kegiatan ekstrakurikuler pramuka untuk melatih kedisiplinan, kemandirian, jiwa kepemimpinan, dan cinta alam pada peserta didik.",
-    content: TODO_CONTENT,
+    content: `
+      <p>
+        Kegiatan Pramuka di madrasah ini jadi ruang belajar yang lebih santai, tapi tetap penuh makna.
+        Anak-anak diajak untuk berani tampil, kompak dengan regu, dan terbiasa bertanggung jawab dalam setiap kegiatan.
+      </p>
+      <p>
+        Lewat latihan rutin, kegiatan lapangan, dan momen seperti persiapan jambore, peserta didik belajar bahwa
+        disiplin dan kerja sama itu bukan cuma teori, tapi kebiasaan yang dibangun pelan-pelan bersama teman dan pembina.
+      </p>
+      <p>
+        Suasana kegiatannya dibuat hangat dan menyenangkan supaya siswa bisa berkembang dengan percaya diri,
+        punya jiwa kepemimpinan, dan lebih siap saat diberi tanggung jawab di sekolah maupun di luar sekolah.
+      </p>
+    `,
     image: '/images/pramuka/pramuka-1.jpg',
     category: "Ekstrakurikuler",
     date: "2025-01-08",
@@ -74,10 +87,10 @@ export const activities: Activity[] = [
     gallery: [
       {
         image: "/images/pramuka/pramuka-1.jpg",
-        title: "Latihan formasi Pramuka",
+        title: "Kebersamaan Siswi Pramuka MTs",
         description:
-          "Siswa berlatih baris-berbaris dan koordinasi regu untuk membangun disiplin serta kepemimpinan.",
-        alt: "Latihan ekstrakurikuler Pramuka di lingkungan sekolah",
+          "Dokumentasi kebersamaan siswi Pramuka MTs dalam kegiatan lapangan yang menumbuhkan kekompakan, disiplin, dan semangat kebersamaan.",
+        alt: "Siswi Pramuka MTs berfoto bersama saat kegiatan lapangan",
       },
       {
         image: "/images/hero-2.jpg",
@@ -85,6 +98,27 @@ export const activities: Activity[] = [
         description:
           "Kegiatan lapangan mendorong kemandirian, kerja sama tim, dan kepedulian antaranggota regu.",
         alt: "Pembinaan karakter siswa melalui kegiatan lapangan Pramuka",
+      },
+      {
+        image: "/images/pramuka/siswa-mts-ke-jambore.jpeg",
+        title: "Peserta MTs menuju jambore",
+        description:
+          "Peserta Pramuka MTs bersiap berangkat mengikuti Jambore Nasional tahun 2026 sebagai bagian dari pembinaan kemandirian dan pengalaman lapangan.",
+        alt: "Siswa MTs Pramuka bersiap berangkat mengikuti jambore",
+      },
+      {
+        image: "/images/pramuka/pelepasan-jambore.jpeg",
+        title: "Pelepasan kontingen jambore MTs",
+        description:
+          "Momen pelepasan Kontingen Pramuka Lombok Utara menuju Jambore Nasional tahun 2026 Di kantor Bupati Lombok Utara dengan suasana penuh semangat.",
+        alt: "Suasana pelepasan peserta Pramuka MTs menuju jambore",
+      },
+      {
+        image: "/images/pramuka/kepsek-mts-melepas-jambore.jpeg",
+        title: "Kepala sekolah melepas peserta jambore",
+        description:
+          "Kepala sekolah MTs memberikan pelepasan kepada peserta Pramuka yang akan mengikuti Jambore Nasional tahun 2026 sebagai bentuk dukungan madrasah.",
+        alt: "Kepala sekolah MTs melepas peserta Pramuka untuk mengikuti jambore",
       },
     ],
   },

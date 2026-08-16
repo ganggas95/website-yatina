@@ -5,6 +5,7 @@ import Image from "next/image";
 import type { GalleryImage } from "@/types/gallery";
 import type { EducationLevel } from "@/types/education";
 import { cn } from "@/lib/utils";
+import { GalleryCarousel } from "@/components/gallery/gallery-carousel";
 
 type FilterValue = EducationLevel | "Yayasan" | "Semua";
 
@@ -69,45 +70,58 @@ export function GalleryGrid({ images }: GalleryGridProps) {
       </div>
 
       {filtered.length > 0 ? (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-          {filtered.map((img, idx) => (
-            <figure
-              key={img.id}
-              className={cn(
-                "group relative overflow-hidden rounded-2xl ring-1 ring-primary-100 bg-primary-50",
-                idx % 7 === 0 && "md:col-span-2 md:row-span-2"
-              )}
-            >
-              <div
-                className={cn(
-                  "w-full h-full",
-                  idx % 7 !== 0 && aspectClass(img.aspectRatio)
-                )}
-              >
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  sizes={
-                    idx % 7 === 0
-                      ? "(min-width: 768px) 50vw, 100vw"
-                      : "(min-width: 768px) 25vw, 50vw"
-                  }
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary-900/85 via-primary-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <figcaption className="absolute bottom-3 left-3 right-3 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                  <p className="text-xs sm:text-sm font-semibold text-white leading-snug line-clamp-2">
-                    {img.alt}
-                  </p>
-                </figcaption>
-                <span className="absolute top-3 left-3 inline-flex items-center rounded-full bg-white/95 backdrop-blur px-2.5 py-1 text-[11px] font-bold text-primary-700 shadow-sm ring-1 ring-primary-100 -translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                  {img.category}
-                </span>
-              </div>
-            </figure>
-          ))}
-        </div>
+        <GalleryCarousel
+          items={filtered.map((img) => ({
+            src: img.src,
+            alt: img.alt,
+            badge: img.category,
+          }))}
+        >
+          {(openAt) => (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+              {filtered.map((img, idx) => (
+                <figure
+                  key={img.id}
+                  className={cn(
+                    "group relative overflow-hidden rounded-2xl ring-1 ring-primary-100 bg-primary-50",
+                    idx % 7 === 0 && "md:col-span-2 md:row-span-2"
+                  )}
+                >
+                  <button
+                    type="button"
+                    onClick={() => openAt(idx)}
+                    className={cn(
+                      "relative block w-full h-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400",
+                      idx % 7 !== 0 && aspectClass(img.aspectRatio)
+                    )}
+                    aria-label={`Buka gambar: ${img.alt}`}
+                  >
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      fill
+                      sizes={
+                        idx % 7 === 0
+                          ? "(min-width: 768px) 50vw, 100vw"
+                          : "(min-width: 768px) 25vw, 50vw"
+                      }
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary-950/95 via-primary-950/35 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <figcaption className="absolute bottom-3 left-3 right-3 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                      <p className="text-xs sm:text-sm font-semibold text-white leading-snug line-clamp-2">
+                        {img.alt}
+                      </p>
+                    </figcaption>
+                    <span className="absolute top-3 left-3 inline-flex items-center rounded-full bg-white/95 backdrop-blur px-2.5 py-1 text-[11px] font-bold text-primary-700 shadow-sm ring-1 ring-primary-100 -translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                      {img.category}
+                    </span>
+                  </button>
+                </figure>
+              ))}
+            </div>
+          )}
+        </GalleryCarousel>
       ) : (
         <div className="rounded-3xl border-2 border-dashed border-primary-200 bg-white p-10 sm:p-14 text-center space-y-3">
           <p className="font-heading text-xl font-bold text-primary-800">

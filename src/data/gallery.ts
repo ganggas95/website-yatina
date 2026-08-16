@@ -90,6 +90,27 @@ export const galleryImages: GalleryImage[] = [
     category: "MA",
     aspectRatio: "landscape",
   },
+  {
+    id: "g13",
+    src: "/images/pramuka/siswa-mts-ke-jambore.jpeg",
+    alt: "Siswa MTs Pramuka bersiap berangkat mengikuti jambore",
+    category: "MTs",
+    aspectRatio: "landscape",
+  },
+  {
+    id: "g14",
+    src: "/images/pramuka/pelepasan-jambore.jpeg",
+    alt: "Suasana pelepasan peserta Pramuka MTs menuju jambore",
+    category: "MTs",
+    aspectRatio: "landscape",
+  },
+  {
+    id: "g15",
+    src: "/images/pramuka/kepsek-mts-melepas-jambore.jpeg",
+    alt: "Kepala sekolah MTs melepas peserta Pramuka untuk mengikuti jambore",
+    category: "MTs",
+    aspectRatio: "landscape",
+  },
 ];
 
 export function getGalleryByCategory(category: GalleryImage["category"] | "Semua") {

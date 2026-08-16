@@ -2,11 +2,11 @@ import { Container } from "@/components/ui/container";
 import { PPDBCTA } from "@/components/ui/ppdb-cta";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { WhatsAppCTA } from "@/components/ui/whatsapp-cta";
+import { SchoolGallery } from "@/components/education/school-gallery";
 import { getGalleryByCategory } from "@/data/gallery";
-import { TODO_CONTENT, cn } from "@/lib/utils";
+import { TODO_CONTENT } from "@/lib/utils";
 import type { EducationUnit } from "@/types/education";
 import { ArrowUpRight, MessageCircle, UserCircle } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 export function SchoolPageTemplate({ unit }: { unit: EducationUnit }) {
@@ -26,41 +26,7 @@ export function SchoolPageTemplate({ unit }: { unit: EducationUnit }) {
             description="Dokumentasi visual kegiatan, lingkungan, dan kebersamaan peserta didik bersama guru."
           />
           {unitGallery.length > 0 ? (
-            <div className="mt-10 grid gap-3 sm:gap-4 grid-cols-2 md:grid-cols-3">
-              {unitGallery.map((img, idx) => (
-                <div
-                  key={img.id}
-                  className={cn(
-                    "group relative overflow-hidden rounded-2xl ring-1 ring-primary-100",
-                    idx === 0 && "md:col-span-2 md:row-span-2",
-                  )}
-                >
-                  <div
-                    className={
-                      idx === 0
-                        ? "aspect-video md:aspect-auto h-full"
-                        : "aspect-[4/3]"
-                    }
-                  >
-                    <Image
-                      src={img.src}
-                      alt={img.alt}
-                      fill
-                      sizes={
-                        idx === 0
-                          ? "(min-width: 768px) 50vw, 100vw"
-                          : "(min-width: 768px) 33vw, 50vw"
-                      }
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary-900/60 via-transparent to-transparent" />
-                    <p className="absolute bottom-3 left-3 right-3 text-xs sm:text-sm font-semibold text-white leading-snug">
-                      {img.alt}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <SchoolGallery images={unitGallery} />
           ) : (
             <p className="mt-10 rounded-2xl bg-white ring-1 ring-primary-100 p-6 text-secondary-600 italic text-center">
               Foto kegiatan untuk {unit.shortName} akan ditambahkan segera.
