@@ -1,5 +1,12 @@
 export type EducationLevel = "TK" | "MI" | "MTs" | "MA";
 
+export interface EducationAccreditation {
+  status: string;
+  grade: string;
+  year: string;
+  certificateNumber: string;
+}
+
 export interface EducationUnit {
   slug: string;
   name: string;
@@ -17,6 +24,7 @@ export interface EducationUnit {
   programs?: string[];
   activities?: string[];
   facilities?: string[];
+  accreditation?: EducationAccreditation;
   contactPerson?: string;
   whatsapp?: string;
 }

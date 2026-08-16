@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
+import Masonry from "react-masonry-css";
 import type { GalleryImage } from "@/types/gallery";
 import type { EducationLevel } from "@/types/education";
 import { cn } from "@/lib/utils";
@@ -39,6 +40,14 @@ export function GalleryGrid({ images }: GalleryGridProps) {
   const filtered = React.useMemo(
     () => (filter === "Semua" ? images : images.filter((i) => i.category === filter)),
     [images, filter]
+  );
+  const breakpointColumns = React.useMemo(
+    () => ({
+      default: 4,
+      1024: 3,
+      768: 2,
+    }),
+    []
   );
 
   return (
@@ -78,48 +87,47 @@ export function GalleryGrid({ images }: GalleryGridProps) {
           }))}
         >
           {(openAt) => (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+            <Masonry
+              breakpointCols={breakpointColumns}
+              className="flex -ml-3 sm:-ml-4"
+              columnClassName="pl-3 sm:pl-4 bg-clip-padding space-y-3 sm:space-y-4"
+            >
               {filtered.map((img, idx) => (
-                <figure
-                  key={img.id}
-                  className={cn(
-                    "group relative overflow-hidden rounded-2xl ring-1 ring-primary-100 bg-primary-50",
-                    idx % 7 === 0 && "md:col-span-2 md:row-span-2"
-                  )}
-                >
-                  <button
-                    type="button"
-                    onClick={() => openAt(idx)}
+                  <figure
+                    key={img.id}
                     className={cn(
-                      "relative block w-full h-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400",
-                      idx % 7 !== 0 && aspectClass(img.aspectRatio)
+                      "group relative overflow-hidden rounded-2xl ring-1 ring-primary-100 bg-primary-50 shadow-sm shadow-primary-900/5"
                     )}
-                    aria-label={`Buka gambar: ${img.alt}`}
                   >
-                    <Image
-                      src={img.src}
-                      alt={img.alt}
-                      fill
-                      sizes={
-                        idx % 7 === 0
-                          ? "(min-width: 768px) 50vw, 100vw"
-                          : "(min-width: 768px) 25vw, 50vw"
-                      }
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary-950/95 via-primary-950/35 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <figcaption className="absolute bottom-3 left-3 right-3 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                      <p className="text-xs sm:text-sm font-semibold text-white leading-snug line-clamp-2">
-                        {img.alt}
-                      </p>
-                    </figcaption>
-                    <span className="absolute top-3 left-3 inline-flex items-center rounded-full bg-white/95 backdrop-blur px-2.5 py-1 text-[11px] font-bold text-primary-700 shadow-sm ring-1 ring-primary-100 -translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                      {img.category}
-                    </span>
-                  </button>
-                </figure>
+                    <button
+                      type="button"
+                      onClick={() => openAt(idx)}
+                      className={cn(
+                        "relative block w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400",
+                        aspectClass(img.aspectRatio)
+                      )}
+                      aria-label={`Buka gambar: ${img.alt}`}
+                    >
+                      <Image
+                        src={img.src}
+                        alt={img.alt}
+                        fill
+                        sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-primary-700/95 via-primary-700/45 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 sm:h-28" />
+                      <figcaption className="absolute bottom-3 left-3 right-3 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                        <p className="text-xs sm:text-sm font-semibold text-white leading-snug line-clamp-2">
+                          {img.alt}
+                        </p>
+                      </figcaption>
+                      <span className="absolute top-3 left-3 inline-flex items-center rounded-full bg-white/95 backdrop-blur px-2.5 py-1 text-[11px] font-bold text-primary-700 shadow-sm ring-1 ring-primary-100 -translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                        {img.category}
+                      </span>
+                    </button>
+                  </figure>
               ))}
-            </div>
+            </Masonry>
           )}
         </GalleryCarousel>
       ) : (

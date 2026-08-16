@@ -90,6 +90,18 @@ function HistoryBlock({ unit }: { unit: EducationUnit }) {
 }
 
 export function EducationUnitProfile({ unit }: { unit: EducationUnit }) {
+  const accreditation = unit.accreditation ?? {
+    status: TODO_CONTENT,
+    grade: TODO_CONTENT,
+    year: TODO_CONTENT,
+    certificateNumber: TODO_CONTENT,
+  };
+  const accreditationPlaceholder =
+    accreditation.status === TODO_CONTENT &&
+    accreditation.grade === TODO_CONTENT &&
+    accreditation.year === TODO_CONTENT &&
+    accreditation.certificateNumber === TODO_CONTENT;
+
   return (
     <section aria-labelledby="profil-sekolah-heading" className="py-20 sm:py-28 bg-surface">
       <Container>
@@ -143,13 +155,46 @@ export function EducationUnitProfile({ unit }: { unit: EducationUnit }) {
                       <p className="font-bold text-primary-800">Aktif</p>
                     </div>
                   </div>
-                  <p className="text-sm font-semibold uppercase tracking-wider text-accent-700">
-                    Pembaruan Data
-                  </p>
-                  <p className="text-sm leading-6 text-secondary-600">
-                    Informasi terkait akreditasi, jumlah peserta didik, tenaga pendidik, dan data
-                    pendukung lainnya akan ditambahkan segera setelah data resmi diterima.
-                  </p>
+                  <div className="space-y-3">
+                    <p className="text-sm font-semibold uppercase tracking-wider text-accent-700">
+                      Akreditasi
+                    </p>
+                    <div className="space-y-3 rounded-2xl bg-white p-4 ring-1 ring-primary-100">
+                      <div className="grid grid-cols-2 gap-3 text-sm">
+                        <div>
+                          <p className="text-xs text-secondary-500">Status</p>
+                          <p className={`font-semibold ${accreditation.status === TODO_CONTENT ? "italic text-secondary-500" : "text-primary-800"}`}>
+                            {accreditation.status === TODO_CONTENT ? "Belum tersedia" : accreditation.status}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-secondary-500">Nilai</p>
+                          <p className={`font-semibold ${accreditation.grade === TODO_CONTENT ? "italic text-secondary-500" : "text-primary-800"}`}>
+                            {accreditation.grade === TODO_CONTENT ? "Belum tersedia" : accreditation.grade}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-secondary-500">Tahun</p>
+                          <p className={`font-semibold ${accreditation.year === TODO_CONTENT ? "italic text-secondary-500" : "text-primary-800"}`}>
+                            {accreditation.year === TODO_CONTENT ? "Belum tersedia" : accreditation.year}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-secondary-500">Sertifikat</p>
+                          <p className={`break-words font-semibold ${accreditation.certificateNumber === TODO_CONTENT ? "italic text-secondary-500" : "text-primary-800"}`}>
+                            {accreditation.certificateNumber === TODO_CONTENT
+                              ? "Belum tersedia"
+                              : accreditation.certificateNumber}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    {accreditationPlaceholder && (
+                      <p className="text-sm leading-6 italic text-secondary-500">
+                        Data akreditasi resmi untuk {unit.shortName} akan ditambahkan setelah dokumen pendukung diterima.
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

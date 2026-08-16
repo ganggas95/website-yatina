@@ -18,6 +18,12 @@ export const educationUnits: EducationUnit[] = [
         programs: [TODO_CONTENT, TODO_CONTENT, TODO_CONTENT, TODO_CONTENT],
         activities: [TODO_CONTENT, TODO_CONTENT, TODO_CONTENT],
         facilities: [TODO_CONTENT, TODO_CONTENT, TODO_CONTENT, TODO_CONTENT],
+        accreditation: {
+            status: TODO_CONTENT,
+            grade: TODO_CONTENT,
+            year: TODO_CONTENT,
+            certificateNumber: TODO_CONTENT,
+        },
         contactPerson: TODO_CONTENT,
         whatsapp: TODO_CONTENT,
     },
@@ -70,6 +76,12 @@ export const educationUnits: EducationUnit[] = [
             "Alat Seni Kaligrafi",
             "Internet"
         ],
+        accreditation: {
+            status: "Terakreditasi",
+            grade: "B",
+            year: "2012",
+            certificateNumber: "94/BAP-SM/KP/X/2012",
+        },
         contactPerson: TODO_CONTENT,
         whatsapp: TODO_CONTENT,
     },
@@ -136,6 +148,12 @@ export const educationUnits: EducationUnit[] = [
             "Fasilitas Olahraga",
             "Internet"
         ],
+        accreditation: {
+            status: "Terakreditasi",
+            grade: "B",
+            year: "2023",
+            certificateNumber: "00271/52000/MTS/2023",
+        },
         contactPerson: '082340589900',
         whatsapp: '082340589900',
     },
@@ -155,6 +173,12 @@ export const educationUnits: EducationUnit[] = [
         programs: [TODO_CONTENT, TODO_CONTENT, TODO_CONTENT, TODO_CONTENT, TODO_CONTENT],
         activities: [TODO_CONTENT, TODO_CONTENT, TODO_CONTENT, TODO_CONTENT],
         facilities: [TODO_CONTENT, TODO_CONTENT, TODO_CONTENT, TODO_CONTENT, TODO_CONTENT],
+        accreditation: {
+            status: TODO_CONTENT,
+            grade: TODO_CONTENT,
+            year: TODO_CONTENT,
+            certificateNumber: TODO_CONTENT,
+        },
         contactPerson: TODO_CONTENT,
         whatsapp: TODO_CONTENT,
     },

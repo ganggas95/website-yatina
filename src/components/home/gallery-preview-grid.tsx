@@ -57,7 +57,7 @@ export function GalleryPreviewGrid({ images }: GalleryPreviewGridProps) {
                   }
                   className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary-950/95 via-primary-950/35 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-primary-950/95 via-primary-950/45 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 sm:h-28" />
                 <div className="absolute bottom-3 left-3 right-3 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                   <div className="flex items-end justify-between gap-2">
                     <p className="text-xs sm:text-sm font-semibold text-white leading-snug">
