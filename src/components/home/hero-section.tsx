@@ -44,10 +44,10 @@ export function HeroSection() {
             >
               Mendidik Generasi{" "}
               <span className="relative inline-block">
-                <span className="relative z-10">Berilmu, Berakhlak</span>
+                <span className="relative z-10">Berakhlak, Terampil</span>
                 <span className="absolute inset-x-0 bottom-1 z-0 h-3 -skew-y-1 bg-accent-200/70" aria-hidden="true" />
               </span>{" "}
-              dan Bermanfaat
+              dan Berprestasi
             </h1>
 
             <p className="max-w-2xl text-base sm:text-lg md:text-xl leading-relaxed text-secondary-700 text-pretty">
