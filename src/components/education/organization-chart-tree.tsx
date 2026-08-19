@@ -398,6 +398,11 @@ interface ViewportPan {
   y: number;
 }
 
+interface NodeOffset {
+  x: number;
+  y: number;
+}
+
 interface PositionedNode {
   id: string;
   data: OrganizationTreeNode;
@@ -412,6 +417,8 @@ interface OrganizationChartViewState {
   pan: ViewportPan;
   collapsedNodeIds: string[];
   lineMode: OrganizationChartLineMode;
+  manualNodeOffsets: Record<string, NodeOffset>;
+  showMinimap: boolean;
 }
 
 const organizationChartViewStateStore = new Map<string, OrganizationChartViewState>();
@@ -494,6 +501,8 @@ export function OrganizationChartTree({
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState<ViewportPan>({ x: 0, y: 0 });
   const [lineMode, setLineMode] = useState<OrganizationChartLineMode>("orthogonal");
+  const [manualNodeOffsets, setManualNodeOffsets] = useState<Record<string, NodeOffset>>({});
+  const [showMinimap, setShowMinimap] = useState(true);
   const hasRestoredViewStateRef = useRef(false);
   const dragStateRef = useRef<{
     pointerId: number | null;
@@ -508,6 +517,21 @@ export function OrganizationChartTree({
     startPanX: 0,
     startPanY: 0,
   });
+  const nodeDragStateRef = useRef<{
+    pointerId: number | null;
+    nodeId: string | null;
+    startX: number;
+    startY: number;
+    startOffsetX: number;
+    startOffsetY: number;
+  }>({
+    pointerId: null,
+    nodeId: null,
+    startX: 0,
+    startY: 0,
+    startOffsetX: 0,
+    startOffsetY: 0,
+  });
 
   useEffect(() => {
     const storedState = organizationChartViewStateStore.get(unit.slug);
@@ -517,6 +541,8 @@ export function OrganizationChartTree({
       setZoom(storedState.zoom);
       setPan(storedState.pan);
       setLineMode(storedState.lineMode);
+      setManualNodeOffsets(storedState.manualNodeOffsets ?? {});
+      setShowMinimap(storedState.showMinimap ?? true);
       hasRestoredViewStateRef.current = true;
       return;
     }
@@ -525,6 +551,8 @@ export function OrganizationChartTree({
     setZoom(1);
     setPan({ x: 0, y: 0 });
     setLineMode("curve");
+    setManualNodeOffsets({});
+    setShowMinimap(true);
     hasRestoredViewStateRef.current = false;
   }, [organization, unit.slug]);
 
@@ -630,43 +658,73 @@ export function OrganizationChartTree({
 
     repositionWrappedRows(laidOutRoot);
 
-    const visibleRawNodes = descendants
-      .filter((node) => node.data.kind !== "row-group")
-      .map((node) => {
-        const dimensions = getNodeDimensions(node.data);
+    const descendantIdsByNodeId = new Map<string, string[]>();
 
-        return {
-          node,
-          x: node.x,
-          y: getNodeY(node),
-          width: dimensions.width,
-          height: dimensions.height,
-        };
-      });
-    const minVisibleX = Math.min(...visibleRawNodes.map((node) => node.x));
-    const maxVisibleRight = Math.max(...visibleRawNodes.map((node) => node.x + node.width));
-    const maxVisibleBottom = Math.max(...visibleRawNodes.map((node) => node.y + node.height));
-    const normalizedOffsetX = SVG_PADDING_X - minVisibleX;
+    descendants.forEach((node) => {
+      descendantIdsByNodeId.set(
+        node.data.id,
+        node.descendants().map((descendant) => descendant.data.id),
+      );
+    });
 
-    const allNodes: PositionedNode[] = descendants.map((node: HierarchyPointNode<OrganizationTreeNode>) => {
+    const rawAllNodes: PositionedNode[] = descendants.map((node: HierarchyPointNode<OrganizationTreeNode>) => {
       const dimensions = getNodeDimensions(node.data);
 
       return {
         id: node.data.id,
         data: node.data,
-        x: node.x + normalizedOffsetX,
-        y: getNodeY(node) + SVG_PADDING_Y,
+        x: node.x,
+        y: getNodeY(node),
         width: dimensions.width,
         height: dimensions.height,
       };
     });
+    const adjustedAllNodes = rawAllNodes.map((node) => ({ ...node }));
+
+    Object.entries(manualNodeOffsets).forEach(([nodeId, offset]) => {
+      if (!offset) {
+        return;
+      }
+
+      const descendantIds = descendantIdsByNodeId.get(nodeId);
+
+      if (!descendantIds) {
+        return;
+      }
+
+      adjustedAllNodes.forEach((node) => {
+        if (descendantIds.includes(node.id)) {
+          node.x += offset.x;
+          node.y += offset.y;
+        }
+      });
+    });
+
+    const adjustedVisibleRawNodes = adjustedAllNodes.filter((node) => node.data.kind !== "row-group");
+    const minVisibleX = Math.min(...adjustedVisibleRawNodes.map((node) => node.x));
+    const minVisibleY = Math.min(...adjustedVisibleRawNodes.map((node) => node.y));
+    const maxVisibleRight = Math.max(...adjustedVisibleRawNodes.map((node) => node.x + node.width));
+    const maxVisibleBottom = Math.max(...adjustedVisibleRawNodes.map((node) => node.y + node.height));
+    const normalizedOffsetX = SVG_PADDING_X - minVisibleX;
+    const normalizedOffsetY = SVG_PADDING_Y - minVisibleY;
+
+    const allNodes = adjustedAllNodes.map((node) => ({
+      ...node,
+      x: node.x + normalizedOffsetX,
+      y: node.y + normalizedOffsetY,
+    }));
     const nodes = allNodes.filter((node) => node.data.kind !== "row-group");
     const totalWidth = maxVisibleRight + normalizedOffsetX + SVG_PADDING_X;
-    const totalHeight = maxVisibleBottom + SVG_PADDING_Y + SVG_PADDING_BOTTOM;
+    const totalHeight = maxVisibleBottom + normalizedOffsetY + SVG_PADDING_BOTTOM;
     const contentBounds = getContentBounds(nodes);
+    const draggableNodeIds = new Set(
+      descendants
+        .filter((node) => (node.children?.length ?? 0) > 0 && node.data.kind !== "row-group")
+        .map((node) => node.data.id),
+    );
 
-    return { nodes, allNodes, links, totalWidth, totalHeight, contentBounds };
-  }, [collapsedNodeIds, organization, unit]);
+    return { nodes, allNodes, links, totalWidth, totalHeight, contentBounds, draggableNodeIds };
+  }, [collapsedNodeIds, manualNodeOffsets, organization, unit]);
   const canvasWidth = layout.totalWidth;
   const canvasHeight = layout.totalHeight;
   const [isDraggingMinimap, setIsDraggingMinimap] = useState(false);
@@ -705,7 +763,7 @@ export function OrganizationChartTree({
     function handlePointerDown(event: PointerEvent) {
       const target = event.target as HTMLElement | null;
 
-      if (!target || target.closest("button")) {
+      if (!target || target.closest("button") || target.closest("[data-node-drag-handle='true']")) {
         return;
       }
 
@@ -933,6 +991,7 @@ export function OrganizationChartTree({
   function handleResetView() {
     const nextZoom = 1;
     setZoom(nextZoom);
+    setManualNodeOffsets({});
     setPan(getReadablePan(nextZoom));
   }
 
@@ -984,8 +1043,55 @@ export function OrganizationChartTree({
       pan,
       collapsedNodeIds: Array.from(collapsedNodeIds),
       lineMode,
+      manualNodeOffsets,
+      showMinimap,
     });
-  }, [collapsedNodeIds, lineMode, pan, unit.slug, zoom]);
+  }, [collapsedNodeIds, lineMode, manualNodeOffsets, pan, showMinimap, unit.slug, zoom]);
+
+  useEffect(() => {
+    function handlePointerMove(event: PointerEvent) {
+      if (nodeDragStateRef.current.pointerId !== event.pointerId || !nodeDragStateRef.current.nodeId) {
+        return;
+      }
+
+      const deltaX = (event.clientX - nodeDragStateRef.current.startX) / zoom;
+      const deltaY = (event.clientY - nodeDragStateRef.current.startY) / zoom;
+
+      setManualNodeOffsets((current) => ({
+        ...current,
+        [nodeDragStateRef.current.nodeId!]: {
+          x: nodeDragStateRef.current.startOffsetX + deltaX,
+          y: nodeDragStateRef.current.startOffsetY + deltaY,
+        },
+      }));
+    }
+
+    function handlePointerUp(event: PointerEvent) {
+      if (nodeDragStateRef.current.pointerId !== event.pointerId) {
+        return;
+      }
+
+      nodeDragStateRef.current = {
+        pointerId: null,
+        nodeId: null,
+        startX: 0,
+        startY: 0,
+        startOffsetX: 0,
+        startOffsetY: 0,
+      };
+      setIsDragging(false);
+    }
+
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", handlePointerUp);
+    window.addEventListener("pointercancel", handlePointerUp);
+
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", handlePointerUp);
+      window.removeEventListener("pointercancel", handlePointerUp);
+    };
+  }, [zoom]);
 
   useEffect(() => {
     const viewport = viewportRef.current;
@@ -1127,6 +1233,15 @@ export function OrganizationChartTree({
               Curve
             </button>
           </div>
+          <label className="inline-flex items-center gap-2 rounded-xl bg-white px-3 py-2 text-sm text-primary-700 ring-1 ring-primary-100">
+            <input
+              type="checkbox"
+              checked={showMinimap}
+              onChange={(event) => setShowMinimap(event.target.checked)}
+              className="h-4 w-4 rounded border-primary-300 text-primary-700 focus:ring-primary-500"
+            />
+            Minimap
+          </label>
 
           {!fullscreen && <button
             type="button"
@@ -1194,7 +1309,30 @@ export function OrganizationChartTree({
           {layout.nodes.map((node) => (
             <div
               key={node.id}
-              className={cn("absolute")}
+              data-node-drag-handle={layout.draggableNodeIds.has(node.id) ? "true" : "false"}
+              onPointerDown={(event) => {
+                if (!layout.draggableNodeIds.has(node.id)) {
+                  return;
+                }
+
+                const target = event.target as HTMLElement | null;
+
+                if (target?.closest("button")) {
+                  return;
+                }
+
+                event.stopPropagation();
+                nodeDragStateRef.current = {
+                  pointerId: event.pointerId,
+                  nodeId: node.id,
+                  startX: event.clientX,
+                  startY: event.clientY,
+                  startOffsetX: manualNodeOffsets[node.id]?.x ?? 0,
+                  startOffsetY: manualNodeOffsets[node.id]?.y ?? 0,
+                };
+                setIsDragging(true);
+              }}
+              className={cn("absolute", layout.draggableNodeIds.has(node.id) && "cursor-move")}
               style={{
                 left: node.x,
                 top: node.y,
@@ -1231,7 +1369,7 @@ export function OrganizationChartTree({
           ))}
         </div>
 
-        <div className="pointer-events-none absolute right-4 top-4 z-10 hidden rounded-2xl border border-primary-200 bg-white/95 p-2.5 shadow-lg shadow-primary-900/10 backdrop-blur sm:block">
+        {showMinimap && <div className="pointer-events-none absolute right-4 top-4 z-10 hidden rounded-2xl border border-primary-200 bg-white/95 p-2.5 shadow-lg shadow-primary-900/10 backdrop-blur sm:block">
           <div className="mb-2 flex items-center justify-between gap-3">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent-700">
               Minimap
@@ -1332,7 +1470,7 @@ export function OrganizationChartTree({
               }}
             />
           </div>
-        </div>
+        </div>}
       </div>
     </div>
   );
