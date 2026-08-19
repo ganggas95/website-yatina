@@ -10,6 +10,7 @@ import {
   Building2,
   ChevronDown,
   ChevronRight,
+  GitBranchPlus,
   Search,
   ZoomIn,
   ZoomOut,
@@ -56,6 +57,11 @@ type OrganizationTreeNode =
   }
   | {
     id: string;
+    kind: "row-group";
+    children: OrganizationTreeNode[];
+  }
+  | {
+    id: string;
     kind: "member";
     member: EducationOrganizationMember;
     children?: never;
@@ -68,8 +74,15 @@ interface OrganizationChartTreeProps extends React.ComponentPropsWithoutRef<'div
   onClickFullScreen?: () => void
 }
 
+type OrganizationChartLineMode = "curve" | "orthogonal";
+
 const LAYOUT_NODE_WIDTH = 288;
-const LAYOUT_LEVEL_HEIGHT = 320;
+const LAYOUT_LEVEL_HEIGHT = 300;
+const LAYOUT_CHILD_ROW_HORIZONTAL_STEP = 252;
+const LAYOUT_WRAPPED_ROW_GROUP_OFFSET = 112;
+const LAYOUT_WRAPPED_ROW_ITEM_OFFSET = 136;
+const LAYOUT_WRAPPED_ROW_STACK_GAP = 252;
+const MAX_NODES_PER_ROW = 4;
 const SVG_PADDING_X = 96;
 const SVG_PADDING_Y = 72;
 const SVG_PADDING_BOTTOM = 200;
@@ -116,23 +129,54 @@ function buildTreeData(
   organization: EducationOrganizationSection,
   collapsedNodeIds: Set<string>,
 ): OrganizationTreeNode {
+  function chunkNodes<T>(items: T[], chunkSize: number) {
+    const chunks: T[][] = [];
+
+    for (let index = 0; index < items.length; index += chunkSize) {
+      chunks.push(items.slice(index, index + chunkSize));
+    }
+
+    return chunks;
+  }
+
+  function wrapChildrenIntoRows(
+    parentId: string,
+    children: OrganizationTreeNode[],
+  ): OrganizationTreeNode[] {
+    if (children.length <= MAX_NODES_PER_ROW) {
+      return children;
+    }
+
+    return chunkNodes(children, MAX_NODES_PER_ROW).map((groupChildren, index) => ({
+      id: `${parentId}__row-group-${index + 1}`,
+      kind: "row-group" as const,
+      children: groupChildren,
+    }));
+  }
+
   const leadershipTier = organization.tiers.find((tier) => tier.id === "leadership");
   const remainingTiers = organization.tiers.filter((tier) => tier.id !== "leadership");
 
-  const downstreamChildren: OrganizationTreeNode[] = remainingTiers.map((tier) => ({
-    id: tier.id,
-    kind: "tier",
-    title: tier.title,
-    description: tier.description,
-    memberCount: tier.members.length,
-    children: collapsedNodeIds.has(tier.id)
-      ? []
-      : tier.members.map((member) => ({
-        id: member.id,
-        kind: "member",
-        member,
-      })),
-  }));
+  const downstreamChildren = wrapChildrenIntoRows(
+    `${unit.slug}-organization-downstream`,
+    remainingTiers.map((tier) => ({
+      id: tier.id,
+      kind: "tier" as const,
+      title: tier.title,
+      description: tier.description,
+      memberCount: tier.members.length,
+      children: collapsedNodeIds.has(tier.id)
+        ? []
+        : wrapChildrenIntoRows(
+          tier.id,
+          tier.members.map((member) => ({
+            id: member.id,
+            kind: "member" as const,
+            member,
+          })),
+        ),
+    })),
+  );
 
   const leadershipMembers = leadershipTier?.members ?? [];
   const primaryLeaderIndex = leadershipMembers.findIndex((member) =>
@@ -183,7 +227,7 @@ function getInitialCollapsedNodeIds(organization: EducationOrganizationSection) 
 }
 
 function getNodeDimensions(node: OrganizationTreeNode) {
-  if (node.kind === "virtual-root") {
+  if (node.kind === "virtual-root" || node.kind === "row-group") {
     return { width: 0, height: 0 };
   }
 
@@ -354,10 +398,20 @@ interface ViewportPan {
   y: number;
 }
 
+interface PositionedNode {
+  id: string;
+  data: OrganizationTreeNode;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 interface OrganizationChartViewState {
   zoom: number;
   pan: ViewportPan;
   collapsedNodeIds: string[];
+  lineMode: OrganizationChartLineMode;
 }
 
 const organizationChartViewStateStore = new Map<string, OrganizationChartViewState>();
@@ -399,6 +453,29 @@ function getViewportRectInContentSpace(
   };
 }
 
+function getConnectorPath(
+  source: Pick<PositionedNode, "x" | "y" | "width" | "height">,
+  target: Pick<PositionedNode, "x" | "y" | "width" | "height">,
+  targetKind: OrganizationTreeNode["kind"],
+  lineMode: OrganizationChartLineMode,
+) {
+  const startX = source.x + source.width / 2;
+  const startY =
+    targetKind === "row-group"
+      ? source.y + source.height * 0.72
+      : source.y + source.height;
+  const endX = target.x + target.width / 2;
+  const endY = target.y;
+
+  if (lineMode === "orthogonal") {
+    const midY = startY + (endY - startY) / 2;
+    return `M ${startX} ${startY} L ${startX} ${midY} L ${endX} ${midY} L ${endX} ${endY}`;
+  }
+
+  const midY = startY + (endY - startY) / 2;
+  return `M ${startX} ${startY} C ${startX} ${midY}, ${endX} ${midY}, ${endX} ${endY}`;
+}
+
 export function OrganizationChartTree({
   unit,
   organization,
@@ -416,6 +493,7 @@ export function OrganizationChartTree({
   const [isDragging, setIsDragging] = useState(false);
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState<ViewportPan>({ x: 0, y: 0 });
+  const [lineMode, setLineMode] = useState<OrganizationChartLineMode>("orthogonal");
   const hasRestoredViewStateRef = useRef(false);
   const dragStateRef = useRef<{
     pointerId: number | null;
@@ -438,6 +516,7 @@ export function OrganizationChartTree({
       setCollapsedNodeIds(new Set(storedState.collapsedNodeIds));
       setZoom(storedState.zoom);
       setPan(storedState.pan);
+      setLineMode(storedState.lineMode);
       hasRestoredViewStateRef.current = true;
       return;
     }
@@ -445,6 +524,7 @@ export function OrganizationChartTree({
     setCollapsedNodeIds(getInitialCollapsedNodeIds(organization));
     setZoom(1);
     setPan({ x: 0, y: 0 });
+    setLineMode("curve");
     hasRestoredViewStateRef.current = false;
   }, [organization, unit.slug]);
 
@@ -482,38 +562,110 @@ export function OrganizationChartTree({
       LAYOUT_LEVEL_HEIGHT,
     ]);
     const laidOutRoot = treeLayout(root);
-    const descendants = laidOutRoot
-      .descendants()
-      .filter((node: HierarchyPointNode<OrganizationTreeNode>) => node.data.kind !== "virtual-root");
+    const allDescendants = laidOutRoot.descendants();
     const links = laidOutRoot.links();
+    const descendants = allDescendants.filter(
+      (node: HierarchyPointNode<OrganizationTreeNode>) => node.data.kind !== "virtual-root",
+    );
 
-    const minX = Math.min(...descendants.map((node: HierarchyPointNode<OrganizationTreeNode>) => node.x));
-    const maxX = Math.max(...descendants.map((node: HierarchyPointNode<OrganizationTreeNode>) => node.x));
-    const nodes = descendants.map((node: HierarchyPointNode<OrganizationTreeNode>) => {
+    function shiftSubtree(node: HierarchyPointNode<OrganizationTreeNode>, deltaX: number) {
+      node.each((descendant) => {
+        descendant.x += deltaX;
+      });
+    }
+
+    function repositionWrappedRows(node: HierarchyPointNode<OrganizationTreeNode>) {
+      const rowGroups = node.children?.filter((child) => child.data.kind === "row-group") ?? [];
+
+      rowGroups.forEach((rowGroup) => {
+        rowGroup.x = node.x;
+
+        rowGroup.children?.forEach((child, childIndex, rowChildren) => {
+          const targetX =
+            node.x + (childIndex - (rowChildren.length - 1) / 2) * LAYOUT_CHILD_ROW_HORIZONTAL_STEP;
+          const deltaX = targetX - child.x;
+
+          shiftSubtree(child, deltaX);
+        });
+      });
+
+      node.children?.forEach((child) => repositionWrappedRows(child));
+    }
+
+    const yCache = new Map<string, number>();
+
+    function getNodeY(node: HierarchyPointNode<OrganizationTreeNode>): number {
+      const cached = yCache.get(node.data.id);
+
+      if (cached !== undefined) {
+        return cached;
+      }
+
+      let nextY = 0;
+
+      if (node.parent) {
+        const parentY = getNodeY(node.parent);
+
+        if (node.data.kind === "row-group") {
+          const rowGroups =
+            node.parent.children?.filter((child) => child.data.kind === "row-group") ?? [];
+          const rowIndex = rowGroups.findIndex((child) => child.data.id === node.data.id);
+          nextY =
+            parentY +
+            LAYOUT_WRAPPED_ROW_GROUP_OFFSET +
+            Math.max(0, rowIndex) * LAYOUT_WRAPPED_ROW_STACK_GAP;
+        } else if (node.parent.data.kind === "row-group") {
+          nextY = parentY + LAYOUT_WRAPPED_ROW_ITEM_OFFSET;
+        } else if (node.parent.data.kind === "virtual-root") {
+          nextY = 0;
+        } else {
+          nextY = parentY + LAYOUT_LEVEL_HEIGHT;
+        }
+      }
+
+      yCache.set(node.data.id, nextY);
+
+      return nextY;
+    }
+
+    repositionWrappedRows(laidOutRoot);
+
+    const visibleRawNodes = descendants
+      .filter((node) => node.data.kind !== "row-group")
+      .map((node) => {
+        const dimensions = getNodeDimensions(node.data);
+
+        return {
+          node,
+          x: node.x,
+          y: getNodeY(node),
+          width: dimensions.width,
+          height: dimensions.height,
+        };
+      });
+    const minVisibleX = Math.min(...visibleRawNodes.map((node) => node.x));
+    const maxVisibleRight = Math.max(...visibleRawNodes.map((node) => node.x + node.width));
+    const maxVisibleBottom = Math.max(...visibleRawNodes.map((node) => node.y + node.height));
+    const normalizedOffsetX = SVG_PADDING_X - minVisibleX;
+
+    const allNodes: PositionedNode[] = descendants.map((node: HierarchyPointNode<OrganizationTreeNode>) => {
       const dimensions = getNodeDimensions(node.data);
 
       return {
         id: node.data.id,
         data: node.data,
-        x: node.x - minX + SVG_PADDING_X,
-        y: node.y + SVG_PADDING_Y,
+        x: node.x + normalizedOffsetX,
+        y: getNodeY(node) + SVG_PADDING_Y,
         width: dimensions.width,
         height: dimensions.height,
       };
     });
-
-    const totalWidth = maxX - minX + LAYOUT_NODE_WIDTH + SVG_PADDING_X * 2;
-    const lowestNodeBottom = Math.max(
-      ...descendants.map((node: HierarchyPointNode<OrganizationTreeNode>) => {
-        const dimensions = getNodeDimensions(node.data);
-        return node.y + SVG_PADDING_Y + dimensions.height;
-      }),
-    );
-    const totalHeight = lowestNodeBottom + SVG_PADDING_BOTTOM;
-
+    const nodes = allNodes.filter((node) => node.data.kind !== "row-group");
+    const totalWidth = maxVisibleRight + normalizedOffsetX + SVG_PADDING_X;
+    const totalHeight = maxVisibleBottom + SVG_PADDING_Y + SVG_PADDING_BOTTOM;
     const contentBounds = getContentBounds(nodes);
 
-    return { nodes, links, totalWidth, totalHeight, minX, contentBounds };
+    return { nodes, allNodes, links, totalWidth, totalHeight, contentBounds };
   }, [collapsedNodeIds, organization, unit]);
   const canvasWidth = layout.totalWidth;
   const canvasHeight = layout.totalHeight;
@@ -831,8 +983,9 @@ export function OrganizationChartTree({
       zoom,
       pan,
       collapsedNodeIds: Array.from(collapsedNodeIds),
+      lineMode,
     });
-  }, [collapsedNodeIds, pan, unit.slug, zoom]);
+  }, [collapsedNodeIds, lineMode, pan, unit.slug, zoom]);
 
   useEffect(() => {
     const viewport = viewportRef.current;
@@ -893,9 +1046,9 @@ export function OrganizationChartTree({
       props.className
     ])}>
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-primary-100 bg-primary-50/60 px-4 py-3 sm:px-5">
-        <p className="text-sm text-secondary-700">
-          Geser chart untuk navigasi. Gunakan tombol zoom atau Ctrl/Cmd + scroll untuk memperbesar tampilan.
-        </p>
+        {/*<p className="text-sm text-secondary-700">*/}
+        {/*  Geser chart untuk navigasi. Gunakan tombol zoom atau Ctrl/Cmd + scroll untuk memperbesar tampilan.*/}
+        {/*</p>*/}
         <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
@@ -946,6 +1099,34 @@ export function OrganizationChartTree({
             <Search className="h-4 w-4" />
             Fit to screen
           </button>
+          <div className="flex items-center overflow-hidden rounded-xl bg-white ring-1 ring-primary-100">
+            <button
+              type="button"
+              onClick={() => setLineMode("orthogonal")}
+              className={cn(
+                "inline-flex items-center gap-2 border-l border-primary-100 px-3 py-2 text-sm transition",
+                lineMode === "orthogonal"
+                  ? "bg-primary-700 text-white"
+                  : "text-primary-700 hover:bg-primary-50",
+              )}
+            >
+              <GitBranchPlus className="h-4 w-4" />
+              Tegak
+            </button>
+            <button
+              type="button"
+              onClick={() => setLineMode("curve")}
+              className={cn(
+                "inline-flex items-center gap-2 px-3 py-2 text-sm transition",
+                lineMode === "curve"
+                  ? "bg-primary-700 text-white"
+                  : "text-primary-700 hover:bg-primary-50",
+              )}
+            >
+              <GitBranchPlus className="h-4 w-4" />
+              Curve
+            </button>
+          </div>
 
           {!fullscreen && <button
             type="button"
@@ -990,23 +1171,17 @@ export function OrganizationChartTree({
                 return null;
               }
 
-              const source = layout.nodes.find((node) => node.id === link.source.data.id);
-              const target = layout.nodes.find((node) => node.id === link.target.data.id);
+              const source = layout.allNodes.find((node) => node.id === link.source.data.id);
+              const target = layout.allNodes.find((node) => node.id === link.target.data.id);
 
               if (!source || !target) {
                 return null;
               }
 
-              const startX = source.x + source.width / 2;
-              const startY = source.y + source.height;
-              const endX = target.x + target.width / 2;
-              const endY = target.y;
-              const midY = startY + (endY - startY) / 2;
-
               return (
                 <path
                   key={`${source.id}-${target.id}`}
-                  d={`M ${startX} ${startY} C ${startX} ${midY}, ${endX} ${midY}, ${endX} ${endY}`}
+                  d={getConnectorPath(source, target, link.target.data.kind, lineMode)}
                   fill="none"
                   stroke="#cddfcf"
                   strokeWidth="2.5"
@@ -1090,31 +1265,30 @@ export function OrganizationChartTree({
                   return null;
                 }
 
-                const source = layout.nodes.find((node) => node.id === link.source.data.id);
-                const target = layout.nodes.find((node) => node.id === link.target.data.id);
+                const source = layout.allNodes.find((node) => node.id === link.source.data.id);
+                const target = layout.allNodes.find((node) => node.id === link.target.data.id);
 
                 if (!source || !target) {
                   return null;
                 }
 
-                const startX =
-                  minimap.offsetX +
-                  (source.x + source.width / 2 - layout.contentBounds.left) * minimap.scale;
-                const startY =
-                  minimap.offsetY +
-                  (source.y + source.height - layout.contentBounds.top) * minimap.scale;
-                const endX =
-                  minimap.offsetX +
-                  (target.x + target.width / 2 - layout.contentBounds.left) * minimap.scale;
-                const endY =
-                  minimap.offsetY +
-                  (target.y - layout.contentBounds.top) * minimap.scale;
-                const midY = startY + (endY - startY) / 2;
+                const minimapSource = {
+                  x: minimap.offsetX + (source.x - layout.contentBounds.left) * minimap.scale,
+                  y: minimap.offsetY + (source.y - layout.contentBounds.top) * minimap.scale,
+                  width: source.width * minimap.scale,
+                  height: source.height * minimap.scale,
+                };
+                const minimapTarget = {
+                  x: minimap.offsetX + (target.x - layout.contentBounds.left) * minimap.scale,
+                  y: minimap.offsetY + (target.y - layout.contentBounds.top) * minimap.scale,
+                  width: target.width * minimap.scale,
+                  height: target.height * minimap.scale,
+                };
 
                 return (
                   <path
                     key={`minimap-${source.id}-${target.id}`}
-                    d={`M ${startX} ${startY} C ${startX} ${midY}, ${endX} ${midY}, ${endX} ${endY}`}
+                    d={getConnectorPath(minimapSource, minimapTarget, link.target.data.kind, lineMode)}
                     fill="none"
                     stroke="#b6cdbd"
                     strokeWidth="1"

@@ -292,7 +292,7 @@ export const educationUnits: EducationUnit[] = [
                 {
                     id: "administration",
                     title: "Administrasi & Operasional",
-                    description: "Fungsi administrasi, tata usaha, data, dan operasional harian madrasah.",
+//                    description: "Fungsi administrasi, tata usaha, data, dan operasional harian madrasah.",
                     members: [
                         {
                             id: "mts-bendahara",
@@ -324,7 +324,7 @@ export const educationUnits: EducationUnit[] = [
                 {
                     id: "academic-coordinators",
                     title: "Wakabag & Koordinator",
-                    description: "Bidang akademik, kesiswaan, sarpras, humas, layanan BK, dan pustaka.",
+//                    description: "Bidang akademik, kesiswaan, sarpras, humas, layanan BK, dan pustaka.",
                     members: [
                         {
                             id: "mts-wakabag-kurikulum",
@@ -361,7 +361,7 @@ export const educationUnits: EducationUnit[] = [
                 {
                     id: "wali-kelas",
                     title: "Wali Kelas",
-                    description: "Pembagian wali kelas untuk jenjang VII sampai IX.",
+//                    description: "Pembagian wali kelas untuk jenjang VII sampai IX.",
                     members: [
                         {
                             id: "mts-wali-vii-a",
