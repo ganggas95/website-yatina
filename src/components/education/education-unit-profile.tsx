@@ -1,4 +1,5 @@
 import { Container } from "@/components/ui/container";
+import { OrganizationChartSection } from "@/components/education/organization-chart-section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { TODO_CONTENT } from "@/lib/utils";
 import type { EducationUnit } from "@/types/education";
@@ -198,6 +199,10 @@ export function EducationUnitProfile({ unit }: { unit: EducationUnit }) {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div>
+            <OrganizationChartSection unit={unit} organization={unit.organization} />
           </div>
 
           <div>

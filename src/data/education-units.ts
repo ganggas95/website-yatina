@@ -82,6 +82,119 @@ export const educationUnits: EducationUnit[] = [
             year: "2012",
             certificateNumber: "94/BAP-SM/KP/X/2012",
         },
+        organization: {
+            title: "Struktur Organisasi MI Riadlul Jannah NW Penjor",
+            description:
+                "Visualisasi susunan personel MI Riadlul Jannah NW Penjor yang dirender per lapisan jabatan agar mudah dibaca di web.",
+            tiers: [
+                {
+                    id: "leadership",
+                    title: "Pimpinan",
+                    description: "Lapisan pimpinan utama unit pendidikan.",
+                    members: [
+                        {
+                            id: "mi-kepala-madrasah",
+                            name: "Mariadi,S.Pd.I",
+                            role: "Kepala Madrasah",
+                            image: undefined,
+                            notes: "",
+                        },
+                    ],
+                },
+                {
+                    id: "core-staff",
+                    title: "Staf Inti",
+                    members: [
+                        {
+                            id: "mi-operator",
+                            name: "Khairul Nazrullah",
+                            role: "Operator Madrasah",
+                        },
+                        {
+                            id: "mi-bendahara-wali-kelas",
+                            name: "Munadi, S.Pd.I",
+                            role: "Wali Kelas IV / Bendahara",
+                        },
+                        {
+                            id: "mi-waka-kurikulum",
+                            name: "Saiful Wathan",
+                            role: "Waka Kurikulum",
+                        },
+                        {
+                            id: "mi-tata-usaha",
+                            name: "Medi",
+                            role: "Tata Usaha",
+                        },
+                    ],
+                },
+                {
+                    id: "teaching-staff",
+                    title: "Guru & Wali Kelas",
+                    members: [
+                        {
+                            id: "mi-guru-0",
+                            name: "Selamet Riadi, S.Pd",
+                            role: "Guru Mapel Pancasila",
+                        },
+                        {
+                            id: "mi-guru-1",
+                            name: "Taezar Hamdi, S.Pd",
+                            role: "Guru Mapel PJOK",
+                        },
+                        {
+                            id: "mi-guru-2",
+                            name: "Siarto, S.Pd.I",
+                            role: "Wali Kelas III",
+                        },
+                        {
+                            id: "mi-guru-3",
+                            name: "Parniwati, S.Pd.I",
+                            role: "Wali Kelas I / Guru Mapel PKN",
+                        },
+                        {
+                            id: "mi-guru-4",
+                            name: "Duradi, S.Pd.I",
+                            role: "Wali Kelas VI / Guru Mapel",
+                        },
+                        {
+                            id: "mi-guru-5",
+                            name: "Nurhasanah, S.Kom",
+                            role: "Wali Kelas / Guru Mapel",
+                        },
+                        {
+                            id: "mi-guru-6",
+                            name: "Satria Wardani, S.Pd.I",
+                            role: "Wali Kelas / Guru Mapel",
+                        },
+                        {
+                            id: "mi-guru-7",
+                            name: "Zulkifli",
+                            role: "Guru Mapel MTK",
+                        },
+                        {
+                            id: "mi-guru-8",
+                            name: "Medi",
+                            role: "Wali Kelas V",
+                        },
+                        {
+                            id: "mi-guru-9",
+                            name: "Suldi Hasan, S.Pd",
+                            role: "Guru Mapel",
+                        },
+                        {
+                            id: "mi-guru-10",
+                            name: "M. Irfan Jayadi, S.Kom",
+                            role: "Guru Mapel",
+                        },
+                        {
+                            id: "mi-guru-11",
+                            name: "Rahimatun Wahidah, S.Pd",
+                            role: "Guru Mapel",
+                        },
+                    ],
+                },
+            ],
+        },
         contactPerson: TODO_CONTENT,
         whatsapp: TODO_CONTENT,
     },
@@ -153,6 +266,141 @@ export const educationUnits: EducationUnit[] = [
             grade: "B",
             year: "2023",
             certificateNumber: "00271/52000/MTS/2023",
+        },
+        organization: {
+            title: "Struktur Organisasi MTs Riadlul Jannah NW Penjor",
+            description:
+                "Visualisasi susunan personel MTs Riadlul Jannah NW Penjor yang dirender per lapisan jabatan agar mudah dibaca di web.",
+            tiers: [
+                {
+                    id: "leadership",
+                    title: "Pimpinan",
+                    description: "Lapisan pimpinan utama madrasah dan unsur komite.",
+                    members: [
+                        {
+                            id: "mts-kepala-madrasah",
+                            name: "Saiful Muslim, S.PdI",
+                            role: "Kepala Madrasah",
+                        },
+                        {
+                            id: "mts-ketua-komite",
+                            name: "Rabin",
+                            role: "Ketua Komite Madrasah",
+                        },
+                    ],
+                },
+                {
+                    id: "administration",
+                    title: "Administrasi & Operasional",
+                    description: "Fungsi administrasi, tata usaha, data, dan operasional harian madrasah.",
+                    members: [
+                        {
+                            id: "mts-bendahara",
+                            name: "I’Anah, SE.",
+                            role: "Bendahara Madrasah",
+                        },
+                        {
+                            id: "mts-kepala-tu",
+                            name: "Astriali",
+                            role: "Kepala Tata Usaha",
+                        },
+                        {
+                            id: "mts-staf-tu",
+                            name: "Ahmad Musliman Hadi, S.HI",
+                            role: "Staf Tata Usaha",
+                        },
+                        {
+                            id: "mts-operator-data",
+                            name: "Abdul Khabir Makbul",
+                            role: "Operator Data",
+                        },
+                        {
+                            id: "mts-penjaga-madrasah",
+                            name: "Syurdi, S.Pd.",
+                            role: "Penjaga Madrasah",
+                        },
+                    ],
+                },
+                {
+                    id: "academic-coordinators",
+                    title: "Wakabag & Koordinator",
+                    description: "Bidang akademik, kesiswaan, sarpras, humas, layanan BK, dan pustaka.",
+                    members: [
+                        {
+                            id: "mts-wakabag-kurikulum",
+                            name: "Neni Supartini, S.Pd.",
+                            role: "Wakabag Kurikulum",
+                        },
+                        {
+                            id: "mts-wakabag-kesiswaan",
+                            name: "Hayudin, S.Pd.",
+                            role: "Wakabag Kesiswaan",
+                        },
+                        {
+                            id: "mts-wakabag-sarpras",
+                            name: "Satuhu, S.PdI",
+                            role: "Wakabag Sarpras",
+                        },
+                        {
+                            id: "mts-wakabag-humas",
+                            name: "H. Syarif Hidayatullah, S.Pd.",
+                            role: "Wakabag Humas",
+                        },
+                        {
+                            id: "mts-koordinator-bk",
+                            name: "Firman Hadi Yudistira, S.Pd.",
+                            role: "Koordinator BK",
+                        },
+                        {
+                            id: "mts-koordinator-pustaka",
+                            name: "Mayanti Da’in, S.Pd.",
+                            role: "Koordinator Pustaka",
+                        },
+                    ],
+                },
+                {
+                    id: "wali-kelas",
+                    title: "Wali Kelas",
+                    description: "Pembagian wali kelas untuk jenjang VII sampai IX.",
+                    members: [
+                        {
+                            id: "mts-wali-vii-a",
+                            name: "Yulia Agustina, S.Pd.",
+                            role: "Wali Kelas VII A",
+                        },
+                        {
+                            id: "mts-wali-vii-b",
+                            name: "Ari Hidayat, S.Pd.",
+                            role: "Wali Kelas VII B",
+                        },
+                        {
+                            id: "mts-wali-viii-a",
+                            name: "Purnasari, S.Pd.",
+                            role: "Wali Kelas VIII A",
+                        },
+                        {
+                            id: "mts-wali-viii-b",
+                            name: "Sulistiani, S.Pd.",
+                            role: "Wali Kelas VIII B",
+                        },
+                        {
+                            id: "mts-wali-ix-a",
+                            name: "I’Anah, SE.",
+                            role: "Wali Kelas IX A",
+                        },
+                        {
+                            id: "mts-wali-ix-b",
+                            name: "Mayanti Da’in, S.Pd.",
+                            role: "Wali Kelas IX B",
+                        },
+                        {
+                            id: "mts-wali-ix-c",
+                            name: "M. Sudiarto, S.PdI",
+                            role: "Wali Kelas IX C",
+                        },
+                    ],
+                },
+            ],
         },
         contactPerson: '082340589900',
         whatsapp: '082340589900',

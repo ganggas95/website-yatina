@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Container } from "@/components/ui/container";
+import { OrganizationAvatar } from "@/components/ui/organization-avatar";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ValuesSection } from "@/components/home/values-section";
 import { NWIdentitySection } from "@/components/home/nw-identity-section";
@@ -257,21 +258,12 @@ export default function TentangPage() {
                   key={`${person.name}-${idx}`}
                   className="rounded-2xl bg-white ring-1 ring-primary-100 p-5 sm:p-6 text-center space-y-3"
                 >
-                  <div className="mx-auto h-20 w-20 rounded-2xl bg-primary-50 overflow-hidden ring-1 ring-primary-100">
-                    {person.image ? (
-                      <Image
-                        src={person.image}
-                        alt={person.name}
-                        width={80}
-                        height={80}
-                        className="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <div className="h-full w-full flex items-center justify-center text-primary-500">
-                        <Users className="h-8 w-8" />
-                      </div>
-                    )}
-                  </div>
+                  <OrganizationAvatar
+                    name={person.name}
+                    image={person.image}
+                    size={80}
+                    className="mx-auto"
+                  />
                   <div>
                     <p className="font-heading text-base font-bold text-primary-800">{person.name}</p>
                     <p className="text-sm text-secondary-600">{person.role}</p>
