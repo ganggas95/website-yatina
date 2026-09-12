@@ -9,24 +9,9 @@ import { LocationSection } from "@/components/home/location-section";
 import { coreValues, foundationInfo, nwIdentity } from "@/data/values";
 import { TODO_CONTENT, cn } from "@/lib/utils";
 import { BookOpen, Target, Flag, Users, CheckCircle2 } from "lucide-react";
+import { createMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Tentang Kami",
-  description:
-    "Mengenal lebih dekat Yayasan Titi Samaguna (Yatina): sejarah, visi, misi, nilai pendidikan, struktur organisasi, dan identitas Nahdlatul Wathan di Penjor, Lombok Utara.",
-  keywords: [
-    "Tentang Yayasan Titi Samaguna",
-    "Sejarah Yatina",
-    "Visi Misi Yatina",
-    "Struktur Yayasan",
-    "Nahdlatul Wathan Penjor",
-  ],
-  openGraph: {
-    title: "Tentang Kami | Yayasan Titi Samaguna",
-    description:
-      "Sejarah, visi, misi, dan nilai pendidikan Yayasan Titi Samaguna, Penjor, Lombok Utara.",
-  },
-};
+export const metadata: Metadata = createMetadata({ title: "Tentang Kami", description: "Mengenal sejarah, visi, misi, dan nilai pendidikan Yayasan Titi Samaguna di Penjor, Lombok Utara.", path: "/tentang", keywords: ["Tentang Yayasan Titi Samaguna", "Visi Misi Yatina", "Nahdlatul Wathan Penjor"] });
 
 const aboutImage =
   "/images/main.jpg";
@@ -79,7 +64,7 @@ export default function TentangPage() {
               />
               <div className="prose prose-slate max-w-none prose-p:text-secondary-700 prose-p:leading-8">
                 <p>
-                  Yayasan Titik Samaguna (atau Titi Samaguna) adalah lembaga sosial keagamaan dan pendidikan Islam yang berlokasi di Jalan Jurusan Selelos Km 7, Dusun Penjor, Desa Genggelang, Kecamatan Gangga, Kabupaten Lombok Utara, Nusa Tenggara Barat. Yayasan ini menaungi Pondok Pesantren Riadlul Jannah NWDI.
+                  Yayasan Titi Samaguna adalah lembaga sosial keagamaan dan pendidikan Islam yang berlokasi di Jalan Jurusan Selelos Km 7, Dusun Penjor, Desa Genggelang, Kecamatan Gangga, Kabupaten Lombok Utara, Nusa Tenggara Barat. Yayasan ini menaungi Pondok Pesantren Riadlul Jannah NWDI.
                 </p>
                 <p>
                   Melalui tenaga pendidik yang penuh dedikasi dan lingkungan belajar yang asri,

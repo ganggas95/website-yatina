@@ -65,7 +65,7 @@ export function ActivityDetail({ activity, related }: ActivityDetailProps) {
             <div className="relative aspect-[16/9] overflow-hidden rounded-3xl ring-1 ring-primary-100 shadow-lg shadow-primary-900/5">
               <Image
                 src={activity.image}
-                alt={activity.title}
+                alt={`${activity.title} di lingkungan Yayasan Titi Samaguna`}
                 fill
                 priority
                 sizes="(min-width: 1024px) 66vw, 100vw"
