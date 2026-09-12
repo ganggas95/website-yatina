@@ -5,17 +5,9 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { ppdbInfo } from "@/data/ppdb";
 import { GraduationCap, Sparkles } from "lucide-react";
 import type { Metadata } from "next";
+import { createMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "PPDB",
-  description:
-    "Informasi Penerimaan Peserta Didik Baru (PPDB) Yayasan Titi Samaguna untuk jenjang TK, MI, MTs, dan MA tahun ajaran terbaru.",
-  keywords: [
-    "PPDB Yatina",
-    "Penerimaan Siswa Baru Lombok Utara",
-    "PPDB TK MI MTs MA Penjor",
-  ],
-};
+export const metadata: Metadata = createMetadata({ title: "PPDB", description: "Informasi Penerimaan Peserta Didik Baru Yayasan Titi Samaguna untuk jenjang TK, MI, MTs, dan MA.", path: "/ppdb", keywords: ["PPDB Yatina", "Penerimaan Siswa Baru Lombok Utara", "PPDB Penjor"] });
 
 export default function PPDBPage() {
   return (

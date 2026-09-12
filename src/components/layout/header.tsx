@@ -27,16 +27,12 @@ const navLinks: NavLink[] = [
     })),
   },
   { href: "/prestasi", label: "Prestasi" },
-  // {
-  //   href: "/ekstrakurikuler",
-  //   label: "Ekstrakurikuler",
-  //   children: [
-  //     { href: "/ekstrakurikuler/pramuka", label: "Pramuka" },
-  //     { href: "/ekstrakurikuler/sepak-bola", label: "Sepak Bola" },
-  //   ],
-  // },
+  { href: "/ekstrakurikuler", label: "Ekstrakurikuler", children: [
+    { href: "/ekstrakurikuler/pramuka", label: "Pramuka" },
+    { href: "/ekstrakurikuler/sepak-bola", label: "Sepak Bola" },
+  ] },
   { href: "/kegiatan", label: "Kegiatan" },
-  // { href: "/ppdb", label: "PPDB" },
+  { href: "/ppdb", label: "PPDB" },
   { href: "/galeri", label: "Galeri" },
   { href: "/kontak", label: "Kontak" },
 ];

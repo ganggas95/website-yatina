@@ -1,18 +1,9 @@
 import type { Metadata } from "next";
 import { ActivityListPage } from "@/components/activity/activity-list-page";
 import { activities } from "@/data/activities";
+import { createMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Kegiatan",
-  description:
-    "Dokumentasi kegiatan belajar mengajar, keagamaan, ekstrakurikuler, prestasi, dan pengabdian masyarakat Yayasan Titi Samaguna.",
-  keywords: [
-    "Kegiatan Yatina",
-    "Kegiatan Madrasah Penjor",
-    "Ekstrakurikuler Lombok Utara",
-    "Prestasi Yatina",
-  ],
-};
+export const metadata: Metadata = createMetadata({ title: "Kegiatan", description: "Dokumentasi kegiatan belajar mengajar, keagamaan, ekstrakurikuler, prestasi, dan pengabdian masyarakat Yayasan Titi Samaguna.", path: "/kegiatan", keywords: ["Kegiatan Yatina", "Kegiatan Madrasah Penjor", "Ekstrakurikuler Lombok Utara"] });
 
 export default function KegiatanPage() {
   return (

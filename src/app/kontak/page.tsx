@@ -16,17 +16,9 @@ import {
 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { createMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Kontak",
-  description:
-    "Hubungi Yayasan Titi Samaguna via WhatsApp, telepon, email, atau media sosial. Alamat di Dusun Penjor, Desa Genggelang, Gangga, Lombok Utara.",
-  keywords: [
-    "Kontak Yatina",
-    "Alamat Yayasan Titi Samaguna",
-    "WhatsApp Yatina",
-  ],
-};
+export const metadata: Metadata = createMetadata({ title: "Kontak", description: "Alamat dan informasi kontak Yayasan Titi Samaguna di Dusun Penjor, Desa Genggelang, Gangga, Lombok Utara.", path: "/kontak", keywords: ["Kontak Yatina", "Alamat Yayasan Titi Samaguna", "WhatsApp Yatina"] });
 
 type SocialIcon = typeof Instagram | typeof Facebook | typeof Youtube;
 

@@ -6,6 +6,8 @@ import { EducationUnitHero } from "@/components/education/education-unit-hero";
 import { EducationUnitProfile } from "@/components/education/education-unit-profile";
 import { SchoolPageTemplate } from "@/components/education/school-page-template";
 import { educationUnits, getEducationUnit } from "@/data/education-units";
+import { createMetadata, absoluteUrl, breadcrumbSchema } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/json-ld";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -19,19 +21,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const unit = getEducationUnit(slug);
   if (!unit) {
-    return { title: "Unit Pendidikan Tidak Ditemukan" };
+    return createMetadata({ title: "Unit Pendidikan Tidak Ditemukan", description: "Unit pendidikan yang diminta tidak ditemukan.", path: `/unit-pendidikan/${slug}` });
   }
-  return {
-    title: unit.name,
-    description: unit.description,
-    keywords: [unit.name, unit.level, unit.category, "Yayasan Titi Samaguna"],
-    openGraph: {
-      title: `${unit.name} | Yayasan Titi Samaguna`,
-      description: unit.description,
-      images: [{ url: unit.image, alt: unit.name }],
-      type: "article",
-    },
-  };
+  return createMetadata({ title: unit.name, description: unit.description, path: `/unit-pendidikan/${slug}`, keywords: [unit.name, unit.level, unit.category], image: unit.image, imageAlt: `${unit.name} - ${unit.category}`, type: "article" });
 }
 
 export default async function UnitPendidikanDetailPage({ params }: PageProps) {
@@ -40,7 +32,7 @@ export default async function UnitPendidikanDetailPage({ params }: PageProps) {
   if (!unit) notFound();
 
   return (
-    <article>
+    <article><JsonLd data={{ "@context": "https://schema.org", "@type": "EducationalOrganization", name: unit.name, description: unit.description, url: absoluteUrl(`/unit-pendidikan/${slug}`), image: absoluteUrl(unit.image), parentOrganization: { "@type": "Organization", name: "Yayasan Titi Samaguna", url: absoluteUrl("/") }, address: { "@type": "PostalAddress", addressLocality: "Dusun Penjor, Desa Genggelang", addressRegion: "Nusa Tenggara Barat", addressCountry: "ID" } }} /><JsonLd data={{ "@context": "https://schema.org", ...breadcrumbSchema([{ name: "Beranda", path: "/" }, { name: "Unit Pendidikan", path: "/unit-pendidikan" }, { name: unit.name }]) }} />
       <EducationUnitHero unit={unit} />
       <Container className="py-6 sm:py-8">
         <Breadcrumb

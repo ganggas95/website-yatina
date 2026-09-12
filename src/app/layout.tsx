@@ -5,6 +5,8 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { createMetadata, absoluteUrl } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/json-ld";
 import "./globals.css";
 
 const inter = Inter({
@@ -26,7 +28,12 @@ export const metadata: Metadata = {
     default: `${siteConfig.name} | Pendidikan Islam di Penjor, Lombok Utara`,
     template: `%s | ${siteConfig.name}`,
   },
-  description: siteConfig.description,
+  ...createMetadata({
+    title: `${siteConfig.name} | Pendidikan Islam di Penjor, Lombok Utara`,
+    description: siteConfig.description,
+    path: "/",
+    keywords: ["Yayasan Titi Samaguna", "Yatina Penjor", "Madrasah Penjor", "Pendidikan Islam Lombok Utara"],
+  }),
   keywords: [
     "Yayasan Titi Samaguna",
     "Yatina Penjor",
@@ -60,6 +67,7 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     title: `${siteConfig.name} | Pendidikan Islam di Penjor, Lombok Utara`,
     description: siteConfig.description,
+    images: [{ url: absoluteUrl("/favicon.png"), alt: `${siteConfig.name} - logo` }],
   },
   twitter: {
     card: "summary_large_image",
@@ -73,9 +81,6 @@ export const metadata: Metadata = {
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
     ],
     apple: "/apple-touch-icon.png",
-  },
-  alternates: {
-    canonical: siteConfig.url,
   },
 };
 
@@ -104,6 +109,13 @@ export default function RootLayout({
         </a>
         <Header />
         <main id="main-content" className="flex-1">
+          <JsonLd data={{
+            "@context": "https://schema.org",
+            "@graph": [
+              { "@type": "Organization", "@id": `${siteConfig.url}/#organization`, name: siteConfig.name, legalName: siteConfig.legalName, url: siteConfig.url, logo: absoluteUrl("/favicon.png"), description: siteConfig.description, address: { "@type": "PostalAddress", streetAddress: "Jalan Jurusan Selelos Km 7", addressLocality: siteConfig.address.village, addressRegion: siteConfig.address.province, addressCountry: "ID" }, geo: { "@type": "GeoCoordinates", latitude: siteConfig.maps.latitude, longitude: siteConfig.maps.longitude } },
+              { "@type": "WebSite", "@id": `${siteConfig.url}/#website`, url: siteConfig.url, name: siteConfig.name, publisher: { "@id": `${siteConfig.url}/#organization` }, inLanguage: siteConfig.language },
+            ],
+          }} />
           {children}
         </main>
         <Analytics />

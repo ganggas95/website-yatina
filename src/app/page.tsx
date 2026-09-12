@@ -7,6 +7,15 @@ import { LatestActivities } from "@/components/home/latest-activities";
 import { GalleryPreview } from "@/components/home/gallery-preview";
 import { PPDBSection } from "@/components/home/ppdb-section";
 import { LocationSection } from "@/components/home/location-section";
+import type { Metadata } from "next";
+import { createMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = createMetadata({
+  title: "Pendidikan Islam di Penjor, Lombok Utara",
+  description: "Mengenal Yatina, lembaga pendidikan Islam di Penjor, Lombok Utara yang menaungi TK hingga Madrasah Aliyah dengan pendidikan berakhlak, terampil, dan berprestasi.",
+  path: "/",
+  keywords: ["Yatina Penjor", "Pendidikan Islam Lombok Utara", "Sekolah Penjor"],
+});
 
 export default function HomePage() {
   return (

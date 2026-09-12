@@ -3,17 +3,9 @@ import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { GalleryGrid } from "@/components/gallery/gallery-grid";
 import { galleryImages } from "@/data/gallery";
+import { createMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Galeri",
-  description:
-    "Galeri foto dokumentasi kegiatan belajar mengajar, keagamaan, ekstrakurikuler, dan suasana lingkungan Yayasan Titi Samaguna, Penjor Lombok Utara.",
-  keywords: [
-    "Galeri Yatina",
-    "Foto Madrasah Penjor",
-    "Dokumentasi Kegiatan Yatina",
-  ],
-};
+export const metadata: Metadata = createMetadata({ title: "Galeri", description: "Galeri foto kegiatan belajar mengajar, keagamaan, ekstrakurikuler, dan suasana lingkungan Yayasan Titi Samaguna.", path: "/galeri", keywords: ["Galeri Yatina", "Foto Madrasah Penjor", "Dokumentasi Kegiatan Yatina"] });
 
 export default function GaleriPage() {
   return (

@@ -1,11 +1,9 @@
 import type { MetadataRoute } from "next";
-import { siteConfig } from "@/data/site";
+import { canonicalUrl } from "@/lib/seo";
 import { educationUnits } from "@/data/education-units";
 import { activities } from "@/data/activities";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = siteConfig.url.replace(/\/$/, "");
-  const now = new Date();
 
   const staticRoutes = [
     "",
@@ -20,8 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/galeri",
     "/kontak",
   ].map((path) => ({
-    url: `${baseUrl}${path === "" ? "/" : path}`,
-    lastModified: now,
+    url: canonicalUrl(path || "/"),
     changeFrequency: "weekly" as const,
     priority:
       path === ""
@@ -34,14 +31,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const unitRoutes = educationUnits.map((unit) => ({
-    url: `${baseUrl}/unit-pendidikan/${unit.slug}`,
-    lastModified: now,
+    url: canonicalUrl(`/unit-pendidikan/${unit.slug}`),
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
 
   const activityRoutes = activities.map((activity) => ({
-    url: `${baseUrl}/kegiatan/${activity.slug}`,
+    url: canonicalUrl(`/kegiatan/${activity.slug}`),
     lastModified: new Date(activity.date),
     changeFrequency: "monthly" as const,
     priority: 0.6,

@@ -3,19 +3,9 @@ import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { EducationUnitPreview } from "@/components/education/education-unit-preview";
 import { educationUnits } from "@/data/education-units";
+import { createMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Unit Pendidikan",
-  description:
-    "Empat jenjang pendidikan di bawah Yayasan Titi Samaguna: TK Yatina, MI, MTs, dan MA Riadlul Jannah NW Penjor, Lombok Utara.",
-  keywords: [
-    "TK Yatina",
-    "MI Riadlul Jannah NW Penjor",
-    "MTs Riadlul Jannah NW Penjor",
-    "MA Riadlul Jannah NW Penjor",
-    "Unit Pendidikan Yatina",
-  ],
-};
+export const metadata: Metadata = createMetadata({ title: "Unit Pendidikan", description: "Daftar jenjang pendidikan TK, MI, MTs, dan MA di bawah Yayasan Titi Samaguna, Penjor, Lombok Utara.", path: "/unit-pendidikan", keywords: ["TK Yatina", "MI Riadlul Jannah NW Penjor", "MTs Riadlul Jannah NW Penjor", "MA Riadlul Jannah NW Penjor"] });
 
 export default function UnitPendidikanPage() {
   return (
