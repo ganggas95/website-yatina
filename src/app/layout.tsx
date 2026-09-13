@@ -7,6 +7,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { createMetadata, absoluteUrl } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/json-ld";
+import { GoogleTagManager } from "@/components/analytics/google-tag-manager";
 import "./globals.css";
 
 const inter = Inter({
@@ -101,6 +102,7 @@ export default function RootLayout({
       className={`${inter.variable} ${plusJakarta.variable}`}
     >
       <body className="min-h-screen flex flex-col bg-background">
+        <GoogleTagManager />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary-600 focus:text-white focus:rounded-lg focus:shadow-lg"
