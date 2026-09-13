@@ -13,6 +13,9 @@ export interface EducationOrganizationMember {
   role: string;
   image?: string;
   notes?: string;
+  /** Optional explicit descendants for organization charts with nested reporting lines. */
+  childMemberIds?: string[];
+  childTierIds?: string[];
 }
 
 export interface EducationOrganizationTier {

@@ -86,14 +86,14 @@ export function OrganizationChartSection({
                     Peta Struktur
                   </p>
                   <p className="leading-7 text-secondary-700">
-                    Susunan berikut dirender per lapisan jabatan agar tetap mudah dibaca pada
-                    mobile maupun desktop.
+                    Susunan berikut menampilkan hubungan pelaporan dan pengelompokan jabatan agar
+                    tetap mudah dibaca pada mobile maupun desktop.
                   </p>
                 </div>
                 <div className="rounded-2xl bg-primary-50 px-4 py-3 text-sm text-primary-800 ring-1 ring-primary-100">
                   <div className="flex items-center gap-2">
                     <Building2 className="h-4 w-4" />
-                    <span>{tiers.length} lapisan organisasi</span>
+                    <span>{tiers.length} kelompok struktur</span>
                   </div>
                 </div>
               </div>
