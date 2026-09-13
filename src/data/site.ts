@@ -1,5 +1,7 @@
 import {TODO_CONTENT} from "@/lib/utils";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
 export const siteConfig = {
     name: "Yayasan Titi Samaguna",
     legalName: "Yayasan Titi Samaguna",
@@ -9,7 +11,7 @@ export const siteConfig = {
         "Yayasan Titi Samaguna adalah lembaga sosial keagamaan dan pendidikan Islam yang berlokasi di Jalan Jurusan Selelos Km 7, Dusun Penjor, Desa Genggelang, Kecamatan Gangga, Kabupaten Lombok Utara, Nusa Tenggara Barat. Yayasan ini menaungi Pondok Pesantren Riadlul Jannah NWDI.",
     language: "id",
     locale: "id_ID",
-    url: "https://yatinapenjor.sch.id",
+    url: siteUrl,
     address: {
         hamlet: "Dusun Penjor",
         village: "Desa Genggelang",

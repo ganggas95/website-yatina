@@ -9,7 +9,7 @@
 
 ## Sebelum dan sesudah deployment
 
-- Pastikan domain produksi menggunakan `https://yatinapenjor.sch.id` dan semua URL sitemap merespons 200.
+- Pastikan `NEXT_PUBLIC_SITE_URL` pada environment produksi menggunakan domain yang benar dan semua URL sitemap merespons 200.
 - Periksa title, description, canonical, `og:image`, alt gambar, dan satu H1 pada setiap route utama.
 - Buka `/robots.txt` dan `/sitemap.xml`; pastikan sitemap menunjuk ke URL produksi dan tidak memuat URL placeholder.
 - Validasi JSON-LD dengan [Rich Results Test](https://search.google.com/test/rich-results) atau Schema Markup Validator.
