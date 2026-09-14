@@ -10,6 +10,7 @@ import {
   Building2,
   ChevronDown,
   ChevronRight,
+  Download,
   GitBranchPlus,
   Search,
   ZoomIn,
@@ -24,6 +25,7 @@ import { cn } from "@/lib/utils";
 import type {
   EducationOrganizationMember,
   EducationOrganizationSection,
+  EducationOrganizationTier,
   EducationUnit,
 } from "@/types/education";
 import clsx from "clsx";
@@ -64,7 +66,7 @@ type OrganizationTreeNode =
     id: string;
     kind: "member";
     member: EducationOrganizationMember;
-    children?: never;
+    children: OrganizationTreeNode[];
   };
 
 interface OrganizationChartTreeProps extends React.ComponentPropsWithoutRef<'div'> {
@@ -76,12 +78,12 @@ interface OrganizationChartTreeProps extends React.ComponentPropsWithoutRef<'div
 
 type OrganizationChartLineMode = "curve" | "orthogonal";
 
-const LAYOUT_NODE_WIDTH = 288;
-const LAYOUT_LEVEL_HEIGHT = 300;
-const LAYOUT_CHILD_ROW_HORIZONTAL_STEP = 252;
-const LAYOUT_WRAPPED_ROW_GROUP_OFFSET = 112;
-const LAYOUT_WRAPPED_ROW_ITEM_OFFSET = 136;
-const LAYOUT_WRAPPED_ROW_STACK_GAP = 252;
+const LAYOUT_NODE_WIDTH = 320;
+const LAYOUT_LEVEL_HEIGHT = 340;
+const LAYOUT_CHILD_ROW_HORIZONTAL_STEP = 320;
+const LAYOUT_WRAPPED_ROW_GROUP_OFFSET = 128;
+const LAYOUT_WRAPPED_ROW_ITEM_OFFSET = 160;
+const LAYOUT_WRAPPED_ROW_STACK_GAP = 320;
 const MAX_NODES_PER_ROW = 4;
 const SVG_PADDING_X = 96;
 const SVG_PADDING_Y = 72;
@@ -156,12 +158,18 @@ function buildTreeData(
 
   const leadershipTier = organization.tiers.find((tier) => tier.id === "leadership");
   const remainingTiers = organization.tiers.filter((tier) => tier.id !== "leadership");
+  const membersById = new Map(
+    organization.tiers.flatMap((tier) => tier.members).map((member) => [member.id, member]),
+  );
+  const tiersById = new Map(organization.tiers.map((tier) => [tier.id, tier]));
+  const hasExplicitRelations = organization.tiers.some((tier) =>
+    tier.members.some((member) => member.childMemberIds || member.childTierIds),
+  );
 
-  const downstreamChildren = wrapChildrenIntoRows(
-    `${unit.slug}-organization-downstream`,
-    remainingTiers.map((tier) => ({
+  function createTierNode(tier: (typeof organization.tiers)[number]): OrganizationTreeNode {
+    return {
       id: tier.id,
-      kind: "tier" as const,
+      kind: "tier",
       title: tier.title,
       description: tier.description,
       memberCount: tier.members.length,
@@ -169,23 +177,55 @@ function buildTreeData(
         ? []
         : wrapChildrenIntoRows(
           tier.id,
-          tier.members.map((member) => ({
-            id: member.id,
-            kind: "member" as const,
-            member,
-          })),
+          tier.members.map((member) => createMemberNode(member)),
         ),
-    })),
-  );
+    };
+  }
+
+  function createMemberNode(
+    member: EducationOrganizationMember,
+    kind: "member" | "root-member" = "member",
+  ): OrganizationTreeNode {
+    const nodeId = kind === "root-member" ? `root-${member.id}` : member.id;
+    const childMembers = (member.childMemberIds ?? [])
+      .map((memberId) => membersById.get(memberId))
+      .filter((child): child is EducationOrganizationMember => Boolean(child))
+      .map((child) => createMemberNode(child));
+    const childTiers = (member.childTierIds ?? [])
+      .map((tierId) => tiersById.get(tierId))
+      .filter((tier): tier is (typeof organization.tiers)[number] => Boolean(tier))
+      .map((tier) => createTierNode(tier));
+
+    return {
+      id: nodeId,
+      kind,
+      member,
+      children: collapsedNodeIds.has(nodeId)
+        ? []
+        : wrapChildrenIntoRows(nodeId, [...childMembers, ...childTiers]),
+    };
+  }
 
   const leadershipMembers = leadershipTier?.members ?? [];
   const primaryLeaderIndex = leadershipMembers.findIndex((member) =>
     member.role.toLowerCase().includes("kepala"),
   );
+  const referencedLeadershipMemberIds = new Set(
+    organization.tiers.flatMap((tier) =>
+      tier.members.flatMap((member) => member.childMemberIds ?? []),
+    ),
+  );
+  const downstreamChildren = wrapChildrenIntoRows(
+    `${unit.slug}-organization-downstream`,
+    remainingTiers.map((tier) => createTierNode(tier)),
+  );
 
-  const rootMembers =
-    leadershipMembers.length > 0
-      ? leadershipMembers.map((member, index) => ({
+  const rootMembers = leadershipMembers.length > 0
+    ? hasExplicitRelations
+      ? leadershipMembers
+        .filter((member) => !referencedLeadershipMemberIds.has(member.id))
+        .map((member) => createMemberNode(member, "root-member"))
+      : leadershipMembers.map((member, index) => ({
         id: `root-${member.id}`,
         kind: "root-member" as const,
         member,
@@ -195,15 +235,15 @@ function buildTreeData(
             ? downstreamChildren
             : [],
       }))
-      : [
-        {
-          id: `${unit.slug}-organization-root-tier`,
-          kind: "root-tier" as const,
-          title: unit.shortName,
-          description: organization.title,
-          children: downstreamChildren,
-        },
-      ];
+    : [
+      {
+        id: `${unit.slug}-organization-root-tier`,
+        kind: "root-tier" as const,
+        title: unit.shortName,
+        description: organization.title,
+        children: downstreamChildren,
+      },
+    ];
 
   return {
     id: `${unit.slug}-organization-virtual-root`,
@@ -215,15 +255,70 @@ function buildTreeData(
 function getExpandableNodeIds(
   organization: EducationOrganizationSection,
 ) {
-  const remainingTiers = organization.tiers.filter((tier) => tier.id !== "leadership");
+  const expandableIds = new Set<string>();
+  const membersById = new Map(
+    organization.tiers.flatMap((tier) => tier.members).map((member) => [member.id, member]),
+  );
+  const tiersById = new Map(organization.tiers.map((tier) => [tier.id, tier]));
+  const hasExplicitRelations = organization.tiers.some((tier) =>
+    tier.members.some((member) => member.childMemberIds || member.childTierIds),
+  );
 
-  return remainingTiers
-    .filter((tier) => tier.members.length > 0)
-    .map((tier) => tier.id);
+  if (!hasExplicitRelations) {
+    return organization.tiers
+      .filter((tier) => tier.id !== "leadership" && tier.members.length > 0)
+      .map((tier) => tier.id);
+  }
+
+  function visitMember(member: EducationOrganizationMember, isRoot = false) {
+    const childMemberIds = (member.childMemberIds ?? []).filter((id) => membersById.has(id));
+    const childTierIds = (member.childTierIds ?? []).filter((id) => tiersById.has(id));
+
+    if (childMemberIds.length > 0 || childTierIds.length > 0) {
+      const nodeId = isRoot ? `root-${member.id}` : member.id;
+      expandableIds.add(nodeId);
+    }
+
+    childMemberIds.forEach((id) => visitMember(membersById.get(id)!));
+    childTierIds.forEach((id) => visitTier(tiersById.get(id)!));
+  }
+
+  function visitTier(tier: EducationOrganizationTier) {
+    if (tier.members.length > 0) {
+      expandableIds.add(tier.id);
+    }
+
+    tier.members.forEach((member) => visitMember(member));
+  }
+
+  const leadershipTier = organization.tiers.find((tier) => tier.id === "leadership");
+  const referencedLeadershipMemberIds = new Set(
+    organization.tiers.flatMap((tier) =>
+      tier.members.flatMap((member) => member.childMemberIds ?? []),
+    ),
+  );
+  leadershipTier?.members
+    .filter((member) => !referencedLeadershipMemberIds.has(member.id))
+    .forEach((member) => visitMember(member, true));
+
+  return Array.from(expandableIds);
 }
 
 function getInitialCollapsedNodeIds(organization: EducationOrganizationSection) {
-  return new Set<string>(getExpandableNodeIds(organization));
+  const expandableIds = getExpandableNodeIds(organization);
+  const leadershipTier = organization.tiers.find((tier) => tier.id === "leadership");
+  const referencedLeadershipMemberIds = new Set(
+    organization.tiers.flatMap((tier) =>
+      tier.members.flatMap((member) => member.childMemberIds ?? []),
+    ),
+  );
+  const leadershipIds = new Set(
+    leadershipTier?.members
+      .filter((member) => !referencedLeadershipMemberIds.has(member.id))
+      .map((member) => `root-${member.id}`) ?? [],
+  );
+
+  return new Set<string>(expandableIds.filter((id) => !leadershipIds.has(id)));
 }
 
 function getNodeDimensions(node: OrganizationTreeNode) {
@@ -357,7 +452,17 @@ function TierNodeCard({
   );
 }
 
-function MemberNodeCard({ member }: { member: EducationOrganizationMember }) {
+function MemberNodeCard({
+  member,
+  isExpanded,
+  canToggle,
+  onToggle,
+}: {
+  member: EducationOrganizationMember;
+  isExpanded?: boolean;
+  canToggle?: boolean;
+  onToggle?: () => void;
+}) {
   return (
     <article className="rounded-2xl bg-white p-5 text-center ring-1 ring-primary-100 shadow-sm shadow-primary-100/30">
       <OrganizationAvatar
@@ -369,16 +474,28 @@ function MemberNodeCard({ member }: { member: EducationOrganizationMember }) {
       <div className="mt-4 space-y-2">
         <p className="font-heading text-base font-bold text-primary-800">{member.name}</p>
         <p className="text-sm leading-6 text-secondary-600">{member.role}</p>
-        {member.notes ? (
-          <p className="rounded-xl bg-accent-50 px-3 py-2 text-xs leading-5 text-accent-800">
-            {member.notes}
-          </p>
-        ) : (
-          <p className="inline-flex items-center gap-2 rounded-xl bg-primary-50 px-3 py-2 text-xs text-primary-700">
-            <UserRound className="h-3.5 w-3.5" />
-            Personel aktif
-          </p>
-        )}
+        <div className="flex items-center justify-center gap-2">
+          {member.notes ? (
+            <p className="rounded-xl bg-accent-50 px-3 py-2 text-xs leading-5 text-accent-800">
+              {member.notes}
+            </p>
+          ) : (
+            <p className="inline-flex items-center gap-2 rounded-xl bg-primary-50 px-3 py-2 text-xs text-primary-700">
+              <UserRound className="h-3.5 w-3.5" />
+              Personel aktif
+            </p>
+          )}
+          {canToggle ? (
+            <button
+              type="button"
+              onClick={onToggle}
+              className="inline-flex items-center gap-1 rounded-xl bg-primary-100 px-3 py-2 text-xs text-primary-700 transition hover:bg-primary-200"
+            >
+              {isExpanded ? <ChevronDown className="h-3.5 w-3.5" /> : <ChevronRight className="h-3.5 w-3.5" />}
+              {isExpanded ? "Tutup" : "Buka"}
+            </button>
+          ) : null}
+        </div>
       </div>
     </article>
   );
@@ -410,6 +527,16 @@ interface PositionedNode {
   y: number;
   width: number;
   height: number;
+}
+
+interface OrganizationChartLayout {
+  nodes: PositionedNode[];
+  allNodes: PositionedNode[];
+  links: HierarchyPointLink<OrganizationTreeNode>[];
+  totalWidth: number;
+  totalHeight: number;
+  contentBounds: ContentBounds;
+  draggableNodeIds: Set<string>;
 }
 
 interface OrganizationChartViewState {
@@ -463,14 +590,13 @@ function getViewportRectInContentSpace(
 function getConnectorPath(
   source: Pick<PositionedNode, "x" | "y" | "width" | "height">,
   target: Pick<PositionedNode, "x" | "y" | "width" | "height">,
-  targetKind: OrganizationTreeNode["kind"],
   lineMode: OrganizationChartLineMode,
 ) {
   const startX = source.x + source.width / 2;
-  const startY =
-    targetKind === "row-group"
-      ? source.y + source.height * 0.72
-      : source.y + source.height;
+  // Every outgoing connector must leave the same anchor: the center of the
+  // parent's bottom edge. Row groups are virtual junctions, so they use the
+  // same rule with their own shared point.
+  const startY = source.y + source.height;
   const endX = target.x + target.width / 2;
   const endY = target.y;
 
@@ -481,6 +607,114 @@ function getConnectorPath(
 
   const midY = startY + (endY - startY) / 2;
   return `M ${startX} ${startY} C ${startX} ${midY}, ${endX} ${midY}, ${endX} ${endY}`;
+}
+
+function getVisibleConnectorSource(
+  node: HierarchyPointNode<OrganizationTreeNode>,
+) {
+  let source = node;
+
+  while (source.data.kind === "row-group" && source.parent) {
+    source = source.parent;
+  }
+
+  return source;
+}
+
+function escapeSvgText(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&apos;");
+}
+
+function getSvgTextLines(value: string, maxCharacters: number) {
+  const words = value.split(/\s+/);
+  const lines: string[] = [];
+  let currentLine = "";
+
+  words.forEach((word) => {
+    const nextLine = currentLine ? `${currentLine} ${word}` : word;
+
+    if (nextLine.length > maxCharacters && currentLine) {
+      lines.push(currentLine);
+      currentLine = word;
+    } else {
+      currentLine = nextLine;
+    }
+  });
+
+  if (currentLine) {
+    lines.push(currentLine);
+  }
+
+  return lines;
+}
+
+function getMemberInitials(name: string) {
+  return name
+    .split(/[\s,]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
+}
+
+function buildOrganizationChartSvg(
+  layout: OrganizationChartLayout,
+  lineMode: OrganizationChartLineMode,
+) {
+  const connectorMarkup = layout.links
+    .filter(
+      (link) =>
+        link.source.data.kind !== "virtual-root" &&
+        link.target.data.kind !== "virtual-root" &&
+        link.target.data.kind !== "row-group",
+    )
+    .map((link) => {
+      const visibleSource = getVisibleConnectorSource(link.source);
+      const source = layout.allNodes.find((node) => node.id === visibleSource.data.id);
+      const target = layout.allNodes.find((node) => node.id === link.target.data.id);
+
+      if (!source || !target) {
+        return "";
+      }
+
+      return `<path d="${getConnectorPath(source, target, lineMode)}" fill="none" stroke="#b6cdbd" stroke-width="2.5" stroke-linecap="round"/>`;
+    })
+    .join("");
+
+  const nodeMarkup = layout.nodes.map((node) => {
+    const isRoot = node.data.kind === "root-member" || node.data.kind === "root-tier";
+    const isTier = node.data.kind === "tier" || node.data.kind === "root-tier";
+    const fill = isRoot ? "#164e3d" : isTier ? "#f2f8f3" : "#ffffff";
+    const stroke = isRoot ? "#0f3b2e" : "#d8e8da";
+    const primaryText = isRoot ? "#ffffff" : "#164e3d";
+    const secondaryText = isRoot ? "#d9f2df" : "#52675a";
+
+    if (node.data.kind === "tier" || node.data.kind === "root-tier") {
+      const titleLines = getSvgTextLines(node.data.title, 24);
+      const descriptionLines = getSvgTextLines(node.data.description ?? "", 34);
+
+      return `<g><rect x="${node.x}" y="${node.y}" width="${node.width}" height="${node.height}" rx="24" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/><text x="${node.x + node.width / 2}" y="${node.y + 40}" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#a66a18">${titleLines.map((line, index) => `<tspan x="${node.x + node.width / 2}" dy="${index === 0 ? 0 : 18}">${escapeSvgText(line)}</tspan>`).join("")}</text><text x="${node.x + node.width / 2}" y="${node.y + 72 + (titleLines.length - 1) * 18}" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="${secondaryText}">${descriptionLines.slice(0, 2).map((line, index) => `<tspan x="${node.x + node.width / 2}" dy="${index === 0 ? 0 : 16}">${escapeSvgText(line)}</tspan>`).join("")}</text></g>`;
+    }
+
+    if (node.data.kind !== "member" && node.data.kind !== "root-member") {
+      return "";
+    }
+
+    const member = node.data.member;
+    const nameLines = getSvgTextLines(member.name, 25);
+    const roleLines = getSvgTextLines(member.role, 32);
+    const centerX = node.x + node.width / 2;
+
+    return `<g><rect x="${node.x}" y="${node.y}" width="${node.width}" height="${node.height}" rx="24" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/><circle cx="${centerX}" cy="${node.y + 38}" r="28" fill="${isRoot ? "#ffffff22" : "#e8f3ea"}"/><text x="${centerX}" y="${node.y + 44}" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="${isRoot ? "#ffffff" : "#28704e"}">${escapeSvgText(getMemberInitials(member.name))}</text><text x="${centerX}" y="${node.y + 92}" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="${primaryText}">${nameLines.map((line, index) => `<tspan x="${centerX}" dy="${index === 0 ? 0 : 18}">${escapeSvgText(line)}</tspan>`).join("")}</text><text x="${centerX}" y="${node.y + 124 + (nameLines.length - 1) * 18}" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="${secondaryText}">${roleLines.slice(0, 3).map((line, index) => `<tspan x="${centerX}" dy="${index === 0 ? 0 : 16}">${escapeSvgText(line)}</tspan>`).join("")}</text></g>`;
+  }).join("");
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${layout.totalWidth}" height="${layout.totalHeight}" viewBox="0 0 ${layout.totalWidth} ${layout.totalHeight}"><rect width="100%" height="100%" fill="#ffffff"/>${connectorMarkup}${nodeMarkup}</svg>`;
 }
 
 export function OrganizationChartTree({
@@ -582,13 +816,19 @@ export function OrganizationChartTree({
     return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Number(nextZoom.toFixed(2))));
   }
 
-  const layout = useMemo(() => {
+  const layout = useMemo<OrganizationChartLayout>(() => {
     const rootData = buildTreeData(unit, organization, collapsedNodeIds);
     const root = hierarchy(rootData);
     const treeLayout = tree<OrganizationTreeNode>().nodeSize([
       LAYOUT_NODE_WIDTH,
       LAYOUT_LEVEL_HEIGHT,
-    ]);
+    ]).separation((first, second) => {
+      if (first.parent === second.parent) {
+        return 1.25;
+      }
+
+      return 1.75;
+    });
     const laidOutRoot = treeLayout(root);
     const allDescendants = laidOutRoot.descendants();
     const links = laidOutRoot.links();
@@ -719,7 +959,7 @@ export function OrganizationChartTree({
     const contentBounds = getContentBounds(nodes);
     const draggableNodeIds = new Set(
       descendants
-        .filter((node) => (node.children?.length ?? 0) > 0 && node.data.kind !== "row-group")
+        .filter((node) => node.data.kind !== "row-group")
         .map((node) => node.data.id),
     );
 
@@ -1146,6 +1386,55 @@ export function OrganizationChartTree({
     };
   }, [handleMinimapPointer, isDraggingMinimap]);
 
+  function downloadBlob(blob: Blob, filename: string) {
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = filename;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function exportSvg() {
+    const svg = buildOrganizationChartSvg(layout, lineMode);
+    downloadBlob(
+      new Blob([svg], { type: "image/svg+xml;charset=utf-8" }),
+      `${unit.slug}-organization-chart.svg`,
+    );
+  }
+
+  function exportPng() {
+    const svg = buildOrganizationChartSvg(layout, lineMode);
+    const svgUrl = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml;charset=utf-8" }));
+    const image = new Image();
+
+    image.onload = () => {
+      const scale = 2;
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.ceil(layout.totalWidth * scale);
+      canvas.height = Math.ceil(layout.totalHeight * scale);
+      const context = canvas.getContext("2d");
+
+      if (!context) {
+        URL.revokeObjectURL(svgUrl);
+        return;
+      }
+
+      context.scale(scale, scale);
+      context.drawImage(image, 0, 0, layout.totalWidth, layout.totalHeight);
+      URL.revokeObjectURL(svgUrl);
+      canvas.toBlob((blob) => {
+        if (blob) {
+          downloadBlob(blob, `${unit.slug}-organization-chart.png`);
+        }
+      }, "image/png");
+    };
+
+    image.src = svgUrl;
+  }
+
   return (
     <div className={clsx([
       "overflow-hidden rounded-[2rem] border border-primary-100 bg-white",
@@ -1204,6 +1493,22 @@ export function OrganizationChartTree({
           >
             <Search className="h-4 w-4" />
             Fit to screen
+          </button>
+          <button
+            type="button"
+            onClick={exportSvg}
+            className="inline-flex items-center gap-2 rounded-xl bg-white px-3 py-2 text-sm text-primary-700 ring-1 ring-primary-100 transition hover:bg-primary-50"
+          >
+            <Download className="h-4 w-4" />
+            SVG
+          </button>
+          <button
+            type="button"
+            onClick={exportPng}
+            className="inline-flex items-center gap-2 rounded-xl bg-white px-3 py-2 text-sm text-primary-700 ring-1 ring-primary-100 transition hover:bg-primary-50"
+          >
+            <Download className="h-4 w-4" />
+            PNG
           </button>
           <div className="flex items-center overflow-hidden rounded-xl bg-white ring-1 ring-primary-100">
             <button
@@ -1281,12 +1586,14 @@ export function OrganizationChartTree({
             {layout.links.map((link: HierarchyPointLink<OrganizationTreeNode>) => {
               if (
                 link.source.data.kind === "virtual-root" ||
-                link.target.data.kind === "virtual-root"
+                link.target.data.kind === "virtual-root" ||
+                link.target.data.kind === "row-group"
               ) {
                 return null;
               }
 
-              const source = layout.allNodes.find((node) => node.id === link.source.data.id);
+              const visibleSource = getVisibleConnectorSource(link.source);
+              const source = layout.allNodes.find((node) => node.id === visibleSource.data.id);
               const target = layout.allNodes.find((node) => node.id === link.target.data.id);
 
               if (!source || !target) {
@@ -1296,7 +1603,7 @@ export function OrganizationChartTree({
               return (
                 <path
                   key={`${source.id}-${target.id}`}
-                  d={getConnectorPath(source, target, link.target.data.kind, lineMode)}
+                  d={getConnectorPath(source, target, lineMode)}
                   fill="none"
                   stroke="#cddfcf"
                   strokeWidth="2.5"
@@ -1364,7 +1671,14 @@ export function OrganizationChartTree({
                   onToggle={() => toggleNode(node.data.id)}
                 />
               )}
-              {node.data.kind === "member" && <MemberNodeCard member={node.data.member} />}
+              {node.data.kind === "member" && (
+                <MemberNodeCard
+                  member={node.data.member}
+                  canToggle={expandableNodeIds.includes(node.data.id)}
+                  isExpanded={!collapsedNodeIds.has(node.data.id)}
+                  onToggle={() => toggleNode(node.data.id)}
+                />
+              )}
             </div>
           ))}
         </div>
@@ -1398,12 +1712,14 @@ export function OrganizationChartTree({
               {layout.links.map((link: HierarchyPointLink<OrganizationTreeNode>) => {
                 if (
                   link.source.data.kind === "virtual-root" ||
-                  link.target.data.kind === "virtual-root"
+                  link.target.data.kind === "virtual-root" ||
+                  link.target.data.kind === "row-group"
                 ) {
                   return null;
                 }
 
-                const source = layout.allNodes.find((node) => node.id === link.source.data.id);
+                const visibleSource = getVisibleConnectorSource(link.source);
+                const source = layout.allNodes.find((node) => node.id === visibleSource.data.id);
                 const target = layout.allNodes.find((node) => node.id === link.target.data.id);
 
                 if (!source || !target) {
@@ -1426,7 +1742,7 @@ export function OrganizationChartTree({
                 return (
                   <path
                     key={`minimap-${source.id}-${target.id}`}
-                    d={getConnectorPath(minimapSource, minimapTarget, link.target.data.kind, lineMode)}
+                    d={getConnectorPath(minimapSource, minimapTarget, lineMode)}
                     fill="none"
                     stroke="#b6cdbd"
                     strokeWidth="1"

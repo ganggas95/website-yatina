@@ -270,29 +270,41 @@ export const educationUnits: EducationUnit[] = [
         organization: {
             title: "Struktur Organisasi MTs Riadlul Jannah NW Penjor",
             description:
-                "Visualisasi susunan personel MTs Riadlul Jannah NW Penjor yang dirender per lapisan jabatan agar mudah dibaca di web.",
+                "Bagan resmi susunan personel MTs Riadlul Jannah NW Penjor beserta hubungan pengawasan dan pelaporan setiap bidang.",
             tiers: [
                 {
                     id: "leadership",
                     title: "Pimpinan",
-                    description: "Lapisan pimpinan utama madrasah dan unsur komite.",
+                    description: "Kepala Madrasah sebagai pusat operasional dan Ketua Komite sebagai unsur pengawasan.",
                     members: [
                         {
                             id: "mts-kepala-madrasah",
                             name: "Saiful Muslim, S.PdI",
                             role: "Kepala Madrasah",
+                            childMemberIds: [
+                                "mts-bendahara",
+                                "mts-kepala-tu",
+                                "mts-wakabag-kurikulum",
+                                "mts-wakabag-kesiswaan",
+                                "mts-wakabag-sarpras",
+                                "mts-wakabag-humas",
+                                "mts-koordinator-bk",
+                                "mts-koordinator-pustaka",
+                                "mts-penjaga-madrasah",
+                            ],
                         },
                         {
                             id: "mts-ketua-komite",
                             name: "Rabin",
                             role: "Ketua Komite Madrasah",
+                            childMemberIds: ["mts-kepala-madrasah"],
                         },
                     ],
                 },
                 {
                     id: "administration",
                     title: "Administrasi & Operasional",
-//                    description: "Fungsi administrasi, tata usaha, data, dan operasional harian madrasah.",
+                    description: "Fungsi administrasi, tata usaha, data, dan operasional harian madrasah.",
                     members: [
                         {
                             id: "mts-bendahara",
@@ -303,6 +315,7 @@ export const educationUnits: EducationUnit[] = [
                             id: "mts-kepala-tu",
                             name: "Astriali",
                             role: "Kepala Tata Usaha",
+                            childMemberIds: ["mts-staf-tu", "mts-operator-data"],
                         },
                         {
                             id: "mts-staf-tu",
@@ -324,12 +337,13 @@ export const educationUnits: EducationUnit[] = [
                 {
                     id: "academic-coordinators",
                     title: "Wakabag & Koordinator",
-//                    description: "Bidang akademik, kesiswaan, sarpras, humas, layanan BK, dan pustaka.",
+                    description: "Bidang akademik, kesiswaan, sarpras, humas, layanan BK, dan pustaka.",
                     members: [
                         {
                             id: "mts-wakabag-kurikulum",
                             name: "Neni Supartini, S.Pd.",
                             role: "Wakabag Kurikulum",
+                            childTierIds: ["wali-kelas"],
                         },
                         {
                             id: "mts-wakabag-kesiswaan",
@@ -361,7 +375,7 @@ export const educationUnits: EducationUnit[] = [
                 {
                     id: "wali-kelas",
                     title: "Wali Kelas",
-//                    description: "Pembagian wali kelas untuk jenjang VII sampai IX.",
+                    description: "Pembagian wali kelas untuk jenjang VII sampai IX.",
                     members: [
                         {
                             id: "mts-wali-vii-a",
