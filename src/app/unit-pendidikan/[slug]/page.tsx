@@ -32,7 +32,7 @@ export default async function UnitPendidikanDetailPage({ params }: PageProps) {
   if (!unit) notFound();
 
   return (
-    <article><JsonLd data={{ "@context": "https://schema.org", "@type": "EducationalOrganization", name: unit.name, description: unit.description, url: absoluteUrl(`/unit-pendidikan/${slug}`), image: absoluteUrl(unit.image), parentOrganization: { "@type": "Organization", name: "Yayasan Titi Samaguna", url: absoluteUrl("/") }, address: { "@type": "PostalAddress", addressLocality: "Dusun Penjor, Desa Genggelang", addressRegion: "Nusa Tenggara Barat", addressCountry: "ID" } }} /><JsonLd data={{ "@context": "https://schema.org", ...breadcrumbSchema([{ name: "Beranda", path: "/" }, { name: "Unit Pendidikan", path: "/unit-pendidikan" }, { name: unit.name }]) }} />
+    <article><JsonLd data={{ "@context": "https://schema.org", "@type": "EducationalOrganization", name: unit.name, description: unit.description, url: absoluteUrl(`/unit-pendidikan/${slug}`), image: absoluteUrl(unit.image), parentOrganization: { "@type": "Organization", name: "Yayasan Titik Samaguna", url: absoluteUrl("/") }, address: { "@type": "PostalAddress", addressLocality: "Dusun Penjor, Desa Genggelang", addressRegion: "Nusa Tenggara Barat", addressCountry: "ID" } }} /><JsonLd data={{ "@context": "https://schema.org", ...breadcrumbSchema([{ name: "Beranda", path: "/" }, { name: "Unit Pendidikan", path: "/unit-pendidikan" }, { name: unit.name }]) }} />
       <EducationUnitHero unit={unit} />
       <Container className="py-6 sm:py-8">
         <Breadcrumb

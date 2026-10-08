@@ -11,7 +11,7 @@ import { TODO_CONTENT, cn } from "@/lib/utils";
 import { BookOpen, Target, Flag, Users, CheckCircle2 } from "lucide-react";
 import { createMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = createMetadata({ title: "Tentang Kami", description: "Mengenal sejarah, visi, misi, dan nilai pendidikan Yayasan Titi Samaguna di Penjor, Lombok Utara.", path: "/tentang", keywords: ["Tentang Yayasan Titi Samaguna", "Visi Misi Yatina", "Nahdlatul Wathan Penjor"] });
+export const metadata: Metadata = createMetadata({ title: "Tentang Kami", description: "Mengenal sejarah, visi, misi, dan nilai pendidikan Yayasan Titik Samaguna di Penjor, Lombok Utara.", path: "/tentang", keywords: ["Tentang Yayasan Titik Samaguna", "Visi Misi Yatina", "Nahdlatul Wathan Penjor"] });
 
 const aboutImage =
   "/images/main.jpg";
@@ -43,7 +43,7 @@ export default function TentangPage() {
               Profil Yayasan
             </span>
             <h1 className="text-accent-50 font-heading text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight text-balance">
-              Tentang Yayasan Titi Samaguna
+              Tentang Yayasan Titik Samaguna
             </h1>
             <p className="text-base sm:text-lg md:text-xl leading-8 text-primary-100/90 max-w-2xl">
               Rumah pendidikan yang menaungi TK hingga Madrasah Aliyah di Dusun Penjor, Desa Genggelang,
@@ -60,11 +60,11 @@ export default function TentangPage() {
               <SectionHeading
                 eyebrow="Sekilas"
                 title="Sekilas Yatina"
-                description="Yayasan Titi Samaguna berkomitmen menghadirkan pendidikan Islam yang berkualitas dan terjangkau bagi masyarakat Penjor dan sekitarnya."
+                description="Yayasan Titik Samaguna berkomitmen menghadirkan pendidikan Islam yang berkualitas dan terjangkau bagi masyarakat Penjor dan sekitarnya."
               />
               <div className="prose prose-slate max-w-none prose-p:text-secondary-700 prose-p:leading-8">
                 <p>
-                  Yayasan Titi Samaguna adalah lembaga sosial keagamaan dan pendidikan Islam yang berlokasi di Jalan Jurusan Selelos Km 7, Dusun Penjor, Desa Genggelang, Kecamatan Gangga, Kabupaten Lombok Utara, Nusa Tenggara Barat. Yayasan ini menaungi Pondok Pesantren Riadlul Jannah NWDI.
+                  Yayasan Titik Samaguna adalah lembaga sosial keagamaan dan pendidikan Islam yang berlokasi di Jalan Jurusan Selelos Km 7, Dusun Penjor, Desa Genggelang, Kecamatan Gangga, Kabupaten Lombok Utara, Nusa Tenggara Barat. Yayasan ini menaungi Pondok Pesantren Riadlul Jannah NWDI.
                 </p>
                 <p>
                   Melalui tenaga pendidik yang penuh dedikasi dan lingkungan belajar yang asri,
@@ -76,7 +76,7 @@ export default function TentangPage() {
             <div className="relative aspect-[4/5] lg:aspect-auto lg:h-full min-h-[28rem] rounded-3xl overflow-hidden shadow-xl shadow-primary-900/10 ring-1 ring-primary-100">
               <Image
                 src={aboutImage}
-                alt="Lingkungan Yayasan Titi Samaguna yang asri dan penuh semangat belajar"
+                alt="Lingkungan Yayasan Titik Samaguna yang asri dan penuh semangat belajar"
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className="object-cover"
@@ -94,7 +94,7 @@ export default function TentangPage() {
               <SectionHeading
                 eyebrow="Perjalanan"
                 title="Sejarah Yayasan"
-                description="Catatan perjalanan pendirian dan perkembangan Yayasan Titi Samaguna."
+                description="Catatan perjalanan pendirian dan perkembangan Yayasan Titik Samaguna."
               />
             </div>
             <div className="lg:col-span-7">
@@ -138,7 +138,7 @@ export default function TentangPage() {
             <SectionHeading
               eyebrow="Arah & Tujuan"
               title="Visi & Misi"
-              description="Komitmen Yayasan Titi Samaguna dalam menyelenggarakan pendidikan yang bermartabat."
+              description="Komitmen Yayasan Titik Samaguna dalam menyelenggarakan pendidikan yang bermartabat."
               align="center"
             />
           </div>
@@ -161,7 +161,7 @@ export default function TentangPage() {
                   }`}
                 >
                   {isVisiPlaceholder
-                    ? "Visi resmi Yayasan Titi Samaguna akan ditambahkan setelah mendapatkan data resmi dari pengurus."
+                    ? "Visi resmi Yayasan Titik Samaguna akan ditambahkan setelah mendapatkan data resmi dari pengurus."
                     : foundationInfo.vision}
                 </p>
               </div>
@@ -215,7 +215,7 @@ export default function TentangPage() {
             <SectionHeading
               eyebrow="Pengurus"
               title="Struktur Yayasan"
-              description="Jajaran pengurus dan kepala unit pendidikan Yayasan Titi Samaguna."
+              description="Jajaran pengurus dan kepala unit pendidikan Yayasan Titik Samaguna."
             />
             {!isOrganizationEmpty && (
               <p className="text-sm text-secondary-600">

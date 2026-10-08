@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Yayasan Titi Samaguna",
+    name: "Yayasan Titik Samaguna",
     short_name: "Yatina",
-    description: "Website resmi Yayasan Titi Samaguna (Yatina), Penjor, Lombok Utara.",
+    description: "Website resmi Yayasan Titik Samaguna (Yatina), Penjor, Lombok Utara.",
     start_url: "/",
     display: "standalone",
     background_color: "#FAFAF7",

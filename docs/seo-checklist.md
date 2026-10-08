@@ -2,7 +2,7 @@
 
 ## Target intent
 
-- Beranda dan Tentang: Yayasan Titi Samaguna, Yatina Penjor, pendidikan Islam Lombok Utara.
+- Beranda dan Tentang: Yayasan Titik Samaguna, Yatina Penjor, pendidikan Islam Lombok Utara.
 - Unit pendidikan: nama dan jenjang TK, MI, MTs, atau MA Riadlul Jannah NW Penjor.
 - PPDB: penerimaan peserta didik baru Yatina dan informasi pendaftaran per jenjang.
 - Kegiatan dan Prestasi: dokumentasi kegiatan, ekstrakurikuler, serta capaian madrasah.

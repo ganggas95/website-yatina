@@ -14,7 +14,7 @@ export function ValuesSection() {
           <SectionHeading
             eyebrow="Nilai Pendidikan"
             title="Enam Pijakan Mendidik Generasi"
-            description="Nilai-nilai yang mendasari seluruh proses pendidikan di lingkungan Yayasan Titi Samaguna dalam menyiapkan peserta didik yang paripurna."
+            description="Nilai-nilai yang mendasari seluruh proses pendidikan di lingkungan Yayasan Titik Samaguna dalam menyiapkan peserta didik yang paripurna."
             align="center"
           />
         </div>

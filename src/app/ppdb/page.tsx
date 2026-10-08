@@ -7,7 +7,7 @@ import { GraduationCap, Sparkles } from "lucide-react";
 import type { Metadata } from "next";
 import { createMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = createMetadata({ title: "PPDB", description: "Informasi Penerimaan Peserta Didik Baru Yayasan Titi Samaguna untuk jenjang TK, MI, MTs, dan MA.", path: "/ppdb", keywords: ["PPDB Yatina", "Penerimaan Siswa Baru Lombok Utara", "PPDB Penjor"] });
+export const metadata: Metadata = createMetadata({ title: "PPDB", description: "Informasi Penerimaan Peserta Didik Baru Yayasan Titik Samaguna untuk jenjang TK, MI, MTs, dan MA.", path: "/ppdb", keywords: ["PPDB Yatina", "Penerimaan Siswa Baru Lombok Utara", "PPDB Penjor"] });
 
 export default function PPDBPage() {
   return (
@@ -31,7 +31,7 @@ export default function PPDBPage() {
               Penerimaan Peserta Didik Baru
             </h1>
             <p className="text-base sm:text-lg md:text-xl leading-8 text-primary-100/90 max-w-2xl">
-              Bergabung bersama keluarga besar Yayasan Titi Samaguna dan temukan
+              Bergabung bersama keluarga besar Yayasan Titik Samaguna dan temukan
               lingkungan pendidikan yang mendukung perkembangan ilmu, akhlak,
               serta karakter peserta didik.
             </p>

@@ -27,7 +27,7 @@ export function IntroFoundation() {
               )}
             >
               <p className="text-lg sm:text-xl leading-8 text-secondary-700 text-pretty">
-                Yayasan Titi Samaguna hadir di tengah masyarakat Dusun Penjor, Desa Genggelang,
+                Yayasan Titik Samaguna hadir di tengah masyarakat Dusun Penjor, Desa Genggelang,
                 sebagai rumah pendidikan yang memadukan nilai-nilai keislaman, ilmu pengetahuan,
                 dan kearifan lokal Lombok untuk membentuk generasi yang shalih, cerdas, dan peduli lingkungan.
               </p>

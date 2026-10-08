@@ -18,7 +18,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { createMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = createMetadata({ title: "Kontak", description: "Alamat dan informasi kontak Yayasan Titi Samaguna di Dusun Penjor, Desa Genggelang, Gangga, Lombok Utara.", path: "/kontak", keywords: ["Kontak Yatina", "Alamat Yayasan Titi Samaguna", "WhatsApp Yatina"] });
+export const metadata: Metadata = createMetadata({ title: "Kontak", description: "Alamat dan informasi kontak Yayasan Titik Samaguna di Dusun Penjor, Desa Genggelang, Gangga, Lombok Utara.", path: "/kontak", keywords: ["Kontak Yatina", "Alamat Yayasan Titik Samaguna", "WhatsApp Yatina"] });
 
 type SocialIcon = typeof Instagram | typeof Facebook | typeof Youtube;
 
@@ -284,7 +284,7 @@ export default function KontakPage() {
               value={
                 socialFB
                   ? siteConfig.social.facebook
-                  : "Yayasan Titi Samaguna (akan diaktifkan)"
+                  : "Yayasan Titik Samaguna (akan diaktifkan)"
               }
               href={siteConfig.social.facebook}
               placeholder={!socialFB}
@@ -295,7 +295,7 @@ export default function KontakPage() {
               value={
                 socialYT
                   ? siteConfig.social.youtube
-                  : "Yayasan Titi Samaguna (akan diaktifkan)"
+                  : "Yayasan Titik Samaguna (akan diaktifkan)"
               }
               href={siteConfig.social.youtube}
               placeholder={!socialYT}
@@ -327,7 +327,7 @@ export default function KontakPage() {
                 </h2>
                 <p className="text-lg leading-8 text-primary-100/90">
                   Sampaikan pertanyaan atau saran Anda melalui WhatsApp. Tim
-                  Yayasan Titi Samaguna akan merespons dengan senang hati.
+                  Yayasan Titik Samaguna akan merespons dengan senang hati.
                 </p>
               </div>
               <div className="lg:col-span-2 flex flex-col sm:flex-row lg:flex-col gap-3">

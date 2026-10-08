@@ -9,7 +9,7 @@ export const educationUnits: EducationUnit[] = [
         level: "TK",
         category: "Pendidikan Anak Usia Dini",
         description:
-            "Lembaga pendidikan anak usia dini di bawah naungan Yayasan Titi Samaguna yang menanamkan nilai-nilai keislaman, akhlak mulia, dan kecintaan belajar sejak dini melalui pendekatan bermain yang menyenangkan.",
+            "Lembaga pendidikan anak usia dini di bawah naungan Yayasan Titik Samaguna yang menanamkan nilai-nilai keislaman, akhlak mulia, dan kecintaan belajar sejak dini melalui pendekatan bermain yang menyenangkan.",
         image: '/images/tk/tk-1.jpg',
         history: [TODO_CONTENT],
         vision: VISI_CONTENT,

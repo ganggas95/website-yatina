@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This repository is the phase-one public website for Yayasan Titi Samaguna (Yatina).
+This repository is the phase-one public website for Yayasan Titik Samaguna (Yatina).
 
 ## Purpose
 
@@ -72,4 +72,3 @@ Run the smallest useful set for the change.
 - Prefer static data and static generation patterns.
 - Maintain semantic HTML and accessibility basics.
 - Keep metadata and SEO implications in mind.
-

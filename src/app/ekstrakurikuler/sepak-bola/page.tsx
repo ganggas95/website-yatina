@@ -4,7 +4,7 @@ import { getActivitiesByProgram } from "@/data/activities";
 import { breadcrumbSchema, createMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/json-ld";
 
-export const metadata: Metadata = createMetadata({ title: "Ekstrakurikuler Sepak Bola", description: "Dokumentasi program sepak bola di Yayasan Titi Samaguna yang menumbuhkan kebugaran, sportivitas, disiplin, dan kerja sama tim.", path: "/ekstrakurikuler/sepak-bola", keywords: ["Sepak Bola Yatina", "Ekstrakurikuler Sepak Bola", "Latihan sepak bola siswa"] });
+export const metadata: Metadata = createMetadata({ title: "Ekstrakurikuler Sepak Bola", description: "Dokumentasi program sepak bola di Yayasan Titik Samaguna yang menumbuhkan kebugaran, sportivitas, disiplin, dan kerja sama tim.", path: "/ekstrakurikuler/sepak-bola", keywords: ["Sepak Bola Yatina", "Ekstrakurikuler Sepak Bola", "Latihan sepak bola siswa"] });
 
 export default function SepakBolaPage() {
   return (

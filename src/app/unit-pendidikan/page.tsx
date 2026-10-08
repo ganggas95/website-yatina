@@ -5,7 +5,7 @@ import { EducationUnitPreview } from "@/components/education/education-unit-prev
 import { educationUnits } from "@/data/education-units";
 import { createMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = createMetadata({ title: "Unit Pendidikan", description: "Daftar jenjang pendidikan TK, MI, MTs, dan MA di bawah Yayasan Titi Samaguna, Penjor, Lombok Utara.", path: "/unit-pendidikan", keywords: ["TK Yatina", "MI Riadlul Jannah NW Penjor", "MTs Riadlul Jannah NW Penjor", "MA Riadlul Jannah NW Penjor"] });
+export const metadata: Metadata = createMetadata({ title: "Unit Pendidikan", description: "Daftar jenjang pendidikan TK, MI, MTs, dan MA di bawah Yayasan Titik Samaguna, Penjor, Lombok Utara.", path: "/unit-pendidikan", keywords: ["TK Yatina", "MI Riadlul Jannah NW Penjor", "MTs Riadlul Jannah NW Penjor", "MA Riadlul Jannah NW Penjor"] });
 
 export default function UnitPendidikanPage() {
   return (
@@ -18,7 +18,7 @@ export default function UnitPendidikanPage() {
             </span>
             <SectionHeading
               eyebrow="Jenjang Pendidikan"
-              title="Unit Pendidikan Yayasan Titi Samaguna"
+              title="Unit Pendidikan Yayasan Titik Samaguna"
               description="Empat unit pendidikan berjenjang yang dirancang untuk memberikan layanan pendidikan Islami yang berkelanjutan, mulai dari usia dini hingga menuju pendidikan tinggi."
             />
           </div>

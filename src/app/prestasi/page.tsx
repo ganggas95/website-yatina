@@ -3,7 +3,7 @@ import { ActivityListPage } from "@/components/activity/activity-list-page";
 import { getActivitiesBySection } from "@/data/activities";
 import { createMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = createMetadata({ title: "Prestasi", description: "Daftar prestasi peserta didik dan capaian Yayasan Titi Samaguna dalam bidang akademik, keagamaan, dan pengembangan karakter.", path: "/prestasi", keywords: ["Prestasi Yatina", "Prestasi siswa Lombok Utara", "Prestasi madrasah Penjor"] });
+export const metadata: Metadata = createMetadata({ title: "Prestasi", description: "Daftar prestasi peserta didik dan capaian Yayasan Titik Samaguna dalam bidang akademik, keagamaan, dan pengembangan karakter.", path: "/prestasi", keywords: ["Prestasi Yatina", "Prestasi siswa Lombok Utara", "Prestasi madrasah Penjor"] });
 
 export default function PrestasiPage() {
   return (

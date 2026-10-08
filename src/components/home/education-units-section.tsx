@@ -17,7 +17,7 @@ export function EducationUnitsSection() {
           <SectionHeading
             eyebrow="Jenjang Pendidikan"
             title="Pendidikan dari Usia Dini hingga Madrasah Aliyah"
-            description="Empat unit pendidikan berjenjang di bawah naungan Yayasan Titi Samaguna yang menyiapkan generasi berilmu, berakhlak, dan siap berkontribusi."
+            description="Empat unit pendidikan berjenjang di bawah naungan Yayasan Titik Samaguna yang menyiapkan generasi berilmu, berakhlak, dan siap berkontribusi."
           />
           <Button href="/unit-pendidikan" variant="outline" size="md" rightIcon={<ArrowUpRight className="h-4 w-4" />}>
             Lihat Semua Unit

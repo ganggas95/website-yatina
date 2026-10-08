@@ -5,7 +5,7 @@ import { ActivityListPage } from "@/components/activity/activity-list-page";
 import { getActivitiesBySection } from "@/data/activities";
 import { createMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = createMetadata({ title: "Ekstrakurikuler", description: "Informasi program Pramuka dan sepak bola di Yayasan Titi Samaguna untuk membangun karakter, disiplin, dan kerja sama.", path: "/ekstrakurikuler", keywords: ["Ekstrakurikuler Yatina", "Pramuka madrasah", "Sepak bola siswa Lombok Utara"] });
+export const metadata: Metadata = createMetadata({ title: "Ekstrakurikuler", description: "Informasi program Pramuka dan sepak bola di Yayasan Titik Samaguna untuk membangun karakter, disiplin, dan kerja sama.", path: "/ekstrakurikuler", keywords: ["Ekstrakurikuler Yatina", "Pramuka madrasah", "Sepak bola siswa Lombok Utara"] });
 
 const programs = [
   {

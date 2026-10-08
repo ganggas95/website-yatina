@@ -62,7 +62,7 @@ export function SchoolPageTemplate({ unit }: { unit: EducationUnit }) {
               <SectionHeading
                 eyebrow="Penerimaan Peserta Didik Baru"
                 title={`Bergabung di ${unit.name}`}
-                description={`Siapkan putra-putri Anda untuk menjadi generasi yang berilmu, berakhlak, dan bermanfaat bersama ${unit.name} Yayasan Titi Samaguna.`}
+                description={`Siapkan putra-putri Anda untuk menjadi generasi yang berilmu, berakhlak, dan bermanfaat bersama ${unit.name} Yayasan Titik Samaguna.`}
                 titleClassName="!text-white"
                 className="text-white [&_p]:!text-primary-100/90"
               />

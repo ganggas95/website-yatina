@@ -139,7 +139,7 @@ export function EducationUnitProfile({ unit }: { unit: EducationUnit }) {
                       Informasi Pendukung
                     </p>
                     <p className="font-heading text-lg font-bold text-primary-800">
-                      Jenjang {unit.level} di bawah Yayasan Titi Samaguna
+                      Jenjang {unit.level} di bawah Yayasan Titik Samaguna
                     </p>
                     <p className="leading-7 text-secondary-700">
                       Ringkasan informasi dasar unit pendidikan untuk membantu orang tua dan

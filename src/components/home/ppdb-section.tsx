@@ -32,8 +32,8 @@ export function PPDBSection() {
               </div>
               <SectionHeading
                 eyebrow="PPDB"
-                title="Bergabung bersama keluarga besar Yayasan Titi Samaguna"
-                description="Temukan lingkungan pendidikan yang mendukung perkembangan ilmu, akhlak dan karakter peserta didik bersama Yayasan Titi Samaguna, Penjor — Lombok Utara."
+                title="Bergabung bersama keluarga besar Yayasan Titik Samaguna"
+                description="Temukan lingkungan pendidikan yang mendukung perkembangan ilmu, akhlak dan karakter peserta didik bersama Yayasan Titik Samaguna, Penjor — Lombok Utara."
               />
               <ul className="grid sm:grid-cols-2 gap-3 pt-2">
                 {[

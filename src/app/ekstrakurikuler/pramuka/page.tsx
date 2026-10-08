@@ -4,7 +4,7 @@ import { getActivitiesByProgram } from "@/data/activities";
 import { breadcrumbSchema, createMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/json-ld";
 
-export const metadata: Metadata = createMetadata({ title: "Ekstrakurikuler Pramuka", description: "Dokumentasi kegiatan Pramuka di Yayasan Titi Samaguna untuk membina kepemimpinan, kemandirian, dan kedisiplinan peserta didik.", path: "/ekstrakurikuler/pramuka", keywords: ["Pramuka Yatina", "Ekstrakurikuler Pramuka", "Kegiatan Pramuka madrasah"] });
+export const metadata: Metadata = createMetadata({ title: "Ekstrakurikuler Pramuka", description: "Dokumentasi kegiatan Pramuka di Yayasan Titik Samaguna untuk membina kepemimpinan, kemandirian, dan kedisiplinan peserta didik.", path: "/ekstrakurikuler/pramuka", keywords: ["Pramuka Yatina", "Ekstrakurikuler Pramuka", "Kegiatan Pramuka madrasah"] });
 
 export default function PramukaPage() {
   return (

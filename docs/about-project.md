@@ -1,8 +1,8 @@
-# Project: Official Website Yayasan Titi Samaguna (Yatina)
+# Project: Official Website Yayasan Titik Samaguna (Yatina)
 
 Anda bertindak sebagai **Senior Frontend Engineer, UI/UX Designer, dan Software Architect**.
 
-Bangun website resmi **Yayasan Titi Samaguna (Yatina)** menggunakan **Next.js App Router**.
+Bangun website resmi **Yayasan Titik Samaguna (Yatina)** menggunakan **Next.js App Router**.
 
 Website pada fase pertama merupakan **fully static website**. Jangan membuat database, authentication, CMS, ataupun backend API kecuali diperlukan oleh fitur bawaan Next.js.
 
@@ -12,7 +12,7 @@ Website pada fase pertama merupakan **fully static website**. Jangan membuat dat
 
 Nama:
 
-**Yayasan Titi Samaguna (Yatina)**
+**Yayasan Titik Samaguna (Yatina)**
 
 Lokasi:
 
@@ -270,7 +270,7 @@ Gunakan foto asli siswa/sekolah sebagai background atau visual dominan.
 
 Content contoh:
 
-**Yayasan Titi Samaguna**
+**Yayasan Titik Samaguna**
 
 Headline:
 
@@ -319,7 +319,7 @@ untuk informasi yang belum diberikan.
 Contoh:
 
 ```ts
-history: "TODO_CONTENT: sejarah resmi Yayasan Titi Samaguna";
+history: "TODO_CONTENT: sejarah resmi Yayasan Titik Samaguna";
 ```
 
 Jangan mengarang:
@@ -499,7 +499,7 @@ Tambahkan section penting:
 
 Copy sementara:
 
-> Bergabung bersama keluarga besar Yayasan Titi Samaguna dan temukan lingkungan pendidikan yang mendukung perkembangan ilmu, akhlak dan karakter peserta didik.
+> Bergabung bersama keluarga besar Yayasan Titik Samaguna dan temukan lingkungan pendidikan yang mendukung perkembangan ilmu, akhlak dan karakter peserta didik.
 
 Tampilkan jenjang:
 
@@ -534,7 +534,7 @@ siteConfig.contact.whatsapp;
 
 Tampilkan:
 
-**Yayasan Titi Samaguna**
+**Yayasan Titik Samaguna**
 
 Dusun Penjor  
 Desa Genggelang  
@@ -560,7 +560,7 @@ Jangan membuat data palsu.
 
 Footer terdiri dari:
 
-Logo + Yayasan Titi Samaguna
+Logo + Yayasan Titik Samaguna
 
 Deskripsi singkat.
 
@@ -591,7 +591,7 @@ Social media.
 Copyright:
 
 ```text
-© {currentYear} Yayasan Titi Samaguna. All rights reserved.
+© {currentYear} Yayasan Titik Samaguna. All rights reserved.
 ```
 
 ---
@@ -608,7 +608,7 @@ Struktur:
 
 ### Hero
 
-Tentang Yayasan Titi Samaguna
+Tentang Yayasan Titik Samaguna
 
 ### Sekilas Yatina
 
@@ -660,7 +660,7 @@ Route:
 
 Heading:
 
-**Unit Pendidikan Yayasan Titi Samaguna**
+**Unit Pendidikan Yayasan Titik Samaguna**
 
 Intro singkat.
 
@@ -896,7 +896,7 @@ Contoh:
 
 ```ts
 export const siteConfig = {
-  name: "Yayasan Titi Samaguna",
+  name: "Yayasan Titik Samaguna",
   shortName: "Yatina",
   address: {
     hamlet: "Penjor",
@@ -1076,7 +1076,7 @@ Buat metadata global.
 Format title:
 
 ```text
-Yayasan Titi Samaguna | Pendidikan Islam di Penjor, Lombok Utara
+Yayasan Titik Samaguna | Pendidikan Islam di Penjor, Lombok Utara
 ```
 
 Setiap halaman memiliki title dan description sendiri.
@@ -1084,7 +1084,7 @@ Setiap halaman memiliki title dan description sendiri.
 Contoh sekolah:
 
 ```text
-MI Riadlul Jannah NW Penjor | Yayasan Titi Samaguna
+MI Riadlul Jannah NW Penjor | Yayasan Titik Samaguna
 ```
 
 Implementasikan:
@@ -1113,7 +1113,7 @@ footer
 Karena yayasan memiliki lokasi fisik, prioritaskan pencarian seperti:
 
 ```text
-Yayasan Titi Samaguna
+Yayasan Titik Samaguna
 Yatina Penjor
 Sekolah Penjor Lombok Utara
 Madrasah Penjor

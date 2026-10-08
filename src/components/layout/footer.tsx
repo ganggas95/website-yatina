@@ -98,19 +98,19 @@ export function Footer() {
               <SocialIcon
                 href={siteConfig.social.instagram}
                 icon={Instagram}
-                label="Instagram Yayasan Titi Samaguna"
+                label="Instagram Yayasan Titik Samaguna"
                 placeholder={ig}
               />
               <SocialIcon
                 href={siteConfig.social.facebook}
                 icon={Facebook}
-                label="Facebook Yayasan Titi Samaguna"
+                label="Facebook Yayasan Titik Samaguna"
                 placeholder={fb}
               />
               <SocialIcon
                 href={siteConfig.social.youtube}
                 icon={Youtube}
-                label="YouTube Yayasan Titi Samaguna"
+                label="YouTube Yayasan Titik Samaguna"
                 placeholder={yt}
               />
             </div>

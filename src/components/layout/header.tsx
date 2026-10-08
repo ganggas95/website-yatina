@@ -86,7 +86,7 @@ export function Header() {
           <Link
             href="/"
             className="flex items-center gap-2.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 rounded-lg"
-            aria-label="Beranda Yayasan Titi Samaguna"
+            aria-label="Beranda Yayasan Titik Samaguna"
           >
             <Image
               src="/favicon.png"
@@ -101,7 +101,7 @@ export function Header() {
                 Yatina
               </span>
               <span className="text-[10px] md:text-xs text-secondary-600 tracking-wide">
-                Yayasan Titi Samaguna
+                Yayasan Titik Samaguna
               </span>
             </div>
           </Link>

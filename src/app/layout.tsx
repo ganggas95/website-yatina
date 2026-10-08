@@ -33,10 +33,10 @@ export const metadata: Metadata = {
     title: `${siteConfig.name} | Pendidikan Islam di Penjor, Lombok Utara`,
     description: siteConfig.description,
     path: "/",
-    keywords: ["Yayasan Titi Samaguna", "Yatina Penjor", "Madrasah Penjor", "Pendidikan Islam Lombok Utara"],
+    keywords: ["Yayasan Titik Samaguna", "Yatina Penjor", "Madrasah Penjor", "Pendidikan Islam Lombok Utara"],
   }),
   keywords: [
-    "Yayasan Titi Samaguna",
+    "Yayasan Titik Samaguna",
     "Yatina Penjor",
     "Sekolah Penjor Lombok Utara",
     "Madrasah Penjor",

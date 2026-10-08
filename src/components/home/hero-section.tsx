@@ -18,7 +18,7 @@ export function HeroSection() {
       <div className="absolute inset-0 -z-10 opacity-90">
         <Image
           src={heroBg}
-          alt="Suasana lingkungan pendidikan Yayasan Titi Samaguna yang asri dan penuh semangat belajar"
+          alt="Suasana lingkungan pendidikan Yayasan Titik Samaguna yang asri dan penuh semangat belajar"
           fill
           priority
           sizes="100vw"

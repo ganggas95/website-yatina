@@ -5,7 +5,7 @@ import { GalleryGrid } from "@/components/gallery/gallery-grid";
 import { galleryImages } from "@/data/gallery";
 import { createMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = createMetadata({ title: "Galeri", description: "Galeri foto kegiatan belajar mengajar, keagamaan, ekstrakurikuler, dan suasana lingkungan Yayasan Titi Samaguna.", path: "/galeri", keywords: ["Galeri Yatina", "Foto Madrasah Penjor", "Dokumentasi Kegiatan Yatina"] });
+export const metadata: Metadata = createMetadata({ title: "Galeri", description: "Galeri foto kegiatan belajar mengajar, keagamaan, ekstrakurikuler, dan suasana lingkungan Yayasan Titik Samaguna.", path: "/galeri", keywords: ["Galeri Yatina", "Foto Madrasah Penjor", "Dokumentasi Kegiatan Yatina"] });
 
 export default function GaleriPage() {
   return (
@@ -18,8 +18,8 @@ export default function GaleriPage() {
             </span>
             <SectionHeading
               eyebrow="Momen Yatina"
-              title="Galeri Foto Yayasan Titi Samaguna"
-              description="Abadikan momen-momen belajar, kebersamaan, dan suasana sekolah yang asri di seluruh jenjang pendidikan Yayasan Titi Samaguna."
+              title="Galeri Foto Yayasan Titik Samaguna"
+              description="Abadikan momen-momen belajar, kebersamaan, dan suasana sekolah yang asri di seluruh jenjang pendidikan Yayasan Titik Samaguna."
             />
             <p className="text-sm leading-6 text-secondary-500 max-w-2xl">
               Gunakan filter di bawah ini untuk menampilkan foto berdasarkan unit pendidikan atau yayasan.
